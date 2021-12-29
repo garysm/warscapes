@@ -1,4 +1,4 @@
-package com.example.flutter_riverpod_template
+package com.example.warscapes
 
 import io.flutter.embedding.android.FlutterActivity
 
