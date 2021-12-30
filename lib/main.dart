@@ -1,115 +1,136 @@
+import 'dart:math' as math;
+
+import 'package:flame/game.dart';
+import 'package:flame/input.dart';
+import 'package:flame_forge2d/body_component.dart';
+import 'package:flame_forge2d/flame_forge2d.dart';
+import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
+void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    GameWidget(game: WarscapesGame()),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class Wall extends BodyComponent {
+  final Vector2 start;
+  final Vector2 end;
 
-  // This widget is the root of your application.
+  Wall(this.start, this.end);
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+  Body createBody() {
+    final shape = EdgeShape()..set(start, end);
+
+    final fixtureDef = FixtureDef(shape)
+      ..restitution = 0.0
+      ..friction = 0.3;
+
+    final bodyDef = BodyDef()
+      ..userData = this // To be able to determine object in collision
+      ..position = Vector2.zero()
+      ..type = BodyType.static;
+
+    return world.createBody(bodyDef)..createFixture(fixtureDef);
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+List<Wall> createBoundaries(Forge2DGame game) {
+  final topLeft = Vector2.zero();
+  final bottomRight = game.screenToWorld(game.camera.viewport.effectiveSize);
+  final topRight = Vector2(bottomRight.x, topLeft.y);
+  final bottomLeft = Vector2(topLeft.x, bottomRight.y);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  return [
+    Wall(topLeft, topRight),
+    Wall(topRight, bottomRight),
+    Wall(bottomRight, bottomLeft),
+    Wall(bottomLeft, topLeft),
+  ];
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class Ground extends BodyComponent {
+  final Vector2 worldCenter;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  Ground(this.worldCenter);
 
   @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+  Body createBody() {
+    final shape = PolygonShape();
+    shape.setAsBoxXY(20.0, 0.4);
+
+    final bodyDef = BodyDef();
+    bodyDef.position.setFrom(worldCenter);
+    final ground = world.createBody(bodyDef);
+    ground.createFixtureFromShape(shape);
+
+    shape.setAsBox(0.4, 20.0, Vector2(-10.0, 0.0), 0.0);
+    ground.createFixtureFromShape(shape);
+    shape.setAsBox(0.4, 20.0, Vector2(10.0, 0.0), 0.0);
+    ground.createFixtureFromShape(shape);
+    return ground;
+  }
+}
+
+class BlobPart extends BodyComponent {
+  final ConstantVolumeJointDef jointDef;
+  final int bodyNumber;
+  final Vector2 blobRadius;
+  final Vector2 blobCenter;
+
+  BlobPart(
+    this.bodyNumber,
+    this.jointDef,
+    this.blobRadius,
+    this.blobCenter,
+  );
+
+  @override
+  Body createBody() {
+    const nBodies = 20.0;
+    const bodyRadius = 0.5;
+    final angle = (bodyNumber / nBodies) * math.pi * 2;
+    final x = blobCenter.x + blobRadius.x * math.sin(angle);
+    final y = blobCenter.y + blobRadius.y * math.cos(angle);
+
+    final bodyDef = BodyDef()
+      ..fixedRotation = true
+      ..position.setValues(x, y)
+      ..type = BodyType.dynamic;
+    final body = world.createBody(bodyDef);
+
+    final shape = CircleShape()..radius = bodyRadius;
+    final fixtureDef = FixtureDef(shape)
+      ..density = 1.0
+      ..filter.groupIndex = -2;
+    body.createFixture(fixtureDef);
+    jointDef.addBody(body);
+    return body;
+  }
+}
+
+class WarscapesGame extends Forge2DGame with TapDetector {
+  @override
+  Future<void>? onLoad() async {
+    await super.onLoad();
+    final worldCenter = screenToWorld(size * camera.zoom / 2);
+    final blobCenter = worldCenter + Vector2(0, 30);
+    final blobRadius = Vector2.all(6.0);
+    addAll(createBoundaries(this));
+    add(Ground(worldCenter));
+    final jointDef = ConstantVolumeJointDef()
+      ..frequencyHz = 20.0
+      ..dampingRatio = 1.0
+      ..collideConnected = false;
+
+    await Future.wait(
+      List.generate(
+        20,
+        (i) => add(BlobPart(i, jointDef, blobRadius, blobCenter)),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+    world.createJoint(jointDef);
   }
 }
