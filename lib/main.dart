@@ -1,42 +1,69 @@
 import 'package:flame/components.dart';
+import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 const double kMapSize = 1500;
-const Rect kMapBounds = Rect.fromLTRB(-kMapSize, -kMapSize, kMapSize, kMapSize);
+const Rect kMapBounds = Rect.fromLTRB(
+  -kMapSize,
+  -kMapSize,
+  kMapSize,
+  kMapSize,
+);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    GameWidget(game: Warscapes()),
+    GameWidget(
+      game: Warscapes(),
+    ),
   );
 }
 
-class Warscapes extends FlameGame with HasKeyboardHandlerComponents {
+class Warscapes extends FlameGame
+    with HasKeyboardHandlerComponents, MouseMovementDetector {
   @override
   bool get debugMode => true;
 
-  @override
-  Future<void> onLoad() async {
-    camera.viewport = DefaultViewport();
-    final map = WarscapesMap();
-    final player = Soldier(radius: 20.0)..position = Vector2(0, 0);
-    add(map);
-    add(FpsTextComponent());
-    add(player);
-    camera.speed = 1;
-    camera.followComponent(player, worldBounds: kMapBounds);
-  }
+  late final World world;
+  late final CameraComponent currentCamera;
+  final soldiers = <Soldier>[];
+  final int numberOfPlayers = 2;
 
   @override
-  Color backgroundColor() => const Color(0xFF38607C);
+  Future<void> onLoad() async {
+    // TODO load menu
+    // TODO get number of players
+    world = World();
+    add(world);
+    final map = WarscapesMap();
+    world.add(map);
+    add(FpsTextComponent());
+    for (var i = 0; i < numberOfPlayers; i++) {
+      final soldier = Soldier(
+        i,
+        radius: 20.0,
+      )..position = Vector2(0, 0);
+      soldiers.add(soldier);
+      world.add(soldier);
+    }
+    currentCamera = CameraComponent(world: world)..follow(soldiers[0]);
+    add(currentCamera);
+  }
 }
 
 class WarscapesMap extends Component {
   static final Paint _background = Paint()
     ..color = const Color.fromARGB(255, 82, 83, 84);
+
+  static Rectangle mapShape = Rectangle.fromLTRB(
+    kMapSize,
+    kMapSize,
+    kMapSize,
+    kMapSize,
+  );
 
   @override
   void render(Canvas canvas) {
@@ -44,12 +71,18 @@ class WarscapesMap extends Component {
   }
 }
 
-class Soldier extends PositionComponent with KeyboardHandler {
+class Soldier extends PositionComponent
+    with KeyboardHandler, HasGameRef<Warscapes> {
+  final int id;
   static const double speed = 300;
   final Vector2 _velocity;
 
-  Soldier({required double radius, Paint? paint, Vector2? position})
-      : _velocity = Vector2.zero(),
+  Soldier(
+    this.id, {
+    required double radius,
+    Paint? paint,
+    Vector2? position,
+  })  : _velocity = Vector2.zero(),
         _radius = radius,
         _paint = paint ?? Paint()
           ..color = Colors.yellow,
@@ -65,19 +98,21 @@ class Soldier extends PositionComponent with KeyboardHandler {
 
   @override
   void update(double dt) {
-    position.x += _velocity.x * dt;
-    position.y += _velocity.y * dt;
-    if (position.x <= -kMapSize + _radius) {
-      position.x = -kMapSize + _radius;
-    }
-    if (position.x >= kMapSize - _radius) {
-      position.x = kMapSize - _radius;
-    }
-    if (position.y <= -kMapSize + _radius) {
-      position.y = -kMapSize + _radius;
-    }
-    if (position.y >= kMapSize - _radius) {
-      position.y = kMapSize - _radius;
+    if (id == 0) {
+      position.x += _velocity.x * dt;
+      position.y += _velocity.y * dt;
+      if (position.x <= -kMapSize + _radius) {
+        position.x = -kMapSize + _radius;
+      }
+      if (position.x >= kMapSize - _radius) {
+        position.x = kMapSize - _radius;
+      }
+      if (position.y <= -kMapSize + _radius) {
+        position.y = -kMapSize + _radius;
+      }
+      if (position.y >= kMapSize - _radius) {
+        position.y = kMapSize - _radius;
+      }
     }
   }
 
@@ -85,7 +120,11 @@ class Soldier extends PositionComponent with KeyboardHandler {
   void render(Canvas canvas) {
     {
       super.render(canvas);
-      canvas.drawCircle(Offset(_radius, _radius), _radius, _paint);
+      canvas.drawCircle(
+        Offset(_radius, _radius),
+        _radius,
+        _paint,
+      );
     }
   }
 
