@@ -1,0 +1,13 @@
+name: Warscapes
+
+packages:
+  - server/**
+  - "*"
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
+
+scripts:
+  analyze:
+    exec: dart analyze .
