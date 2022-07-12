@@ -1,136 +1,144 @@
-import 'dart:math' as math;
-
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
-import 'package:flame_forge2d/body_component.dart';
-import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:flame_forge2d/forge2d_game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main(List<String> args) async {
+const double kMapSize = 1500;
+const Rect kMapBounds = Rect.fromLTRB(-kMapSize, -kMapSize, kMapSize, kMapSize);
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
-    GameWidget(game: WarscapesGame()),
+    GameWidget(game: Warscapes()),
   );
 }
 
-class Wall extends BodyComponent {
-  final Vector2 start;
-  final Vector2 end;
-
-  Wall(this.start, this.end);
+class Warscapes extends FlameGame with HasKeyboardHandlerComponents {
+  @override
+  bool get debugMode => true;
 
   @override
-  Body createBody() {
-    final shape = EdgeShape()..set(start, end);
+  Future<void> onLoad() async {
+    camera.viewport = DefaultViewport();
+    final map = WarscapesMap();
+    final player = Soldier(radius: 20.0)..position = Vector2(0, 0);
+    add(map);
+    add(FpsTextComponent());
+    add(player);
+    camera.speed = 1;
+    camera.followComponent(player, worldBounds: kMapBounds);
+  }
 
-    final fixtureDef = FixtureDef(shape)
-      ..restitution = 0.0
-      ..friction = 0.3;
+  @override
+  Color backgroundColor() => const Color(0xFF38607C);
+}
 
-    final bodyDef = BodyDef()
-      ..userData = this // To be able to determine object in collision
-      ..position = Vector2.zero()
-      ..type = BodyType.static;
+class WarscapesMap extends Component {
+  static final Paint _background = Paint()
+    ..color = const Color.fromARGB(255, 82, 83, 84);
 
-    return world.createBody(bodyDef)..createFixture(fixtureDef);
+  @override
+  void render(Canvas canvas) {
+    canvas.drawRect(kMapBounds, _background);
   }
 }
 
-List<Wall> createBoundaries(Forge2DGame game) {
-  final topLeft = Vector2.zero();
-  final bottomRight = game.screenToWorld(game.camera.viewport.effectiveSize);
-  final topRight = Vector2(bottomRight.x, topLeft.y);
-  final bottomLeft = Vector2(topLeft.x, bottomRight.y);
+class Soldier extends PositionComponent with KeyboardHandler {
+  static const double speed = 300;
+  final Vector2 _velocity;
 
-  return [
-    Wall(topLeft, topRight),
-    Wall(topRight, bottomRight),
-    Wall(bottomRight, bottomLeft),
-    Wall(bottomLeft, topLeft),
-  ];
-}
+  Soldier({required double radius, Paint? paint, Vector2? position})
+      : _velocity = Vector2.zero(),
+        _radius = radius,
+        _paint = paint ?? Paint()
+          ..color = Colors.yellow,
+        super(
+          priority: 1,
+          position: position,
+          size: Vector2.all(2 * radius),
+          anchor: Anchor.center,
+        );
 
-class Ground extends BodyComponent {
-  final Vector2 worldCenter;
-
-  Ground(this.worldCenter);
+  final double _radius;
+  final Paint _paint;
 
   @override
-  Body createBody() {
-    final shape = PolygonShape();
-    shape.setAsBoxXY(20.0, 0.4);
-
-    final bodyDef = BodyDef();
-    bodyDef.position.setFrom(worldCenter);
-    final ground = world.createBody(bodyDef);
-    ground.createFixtureFromShape(shape);
-
-    shape.setAsBox(0.4, 20.0, Vector2(-10.0, 0.0), 0.0);
-    ground.createFixtureFromShape(shape);
-    shape.setAsBox(0.4, 20.0, Vector2(10.0, 0.0), 0.0);
-    ground.createFixtureFromShape(shape);
-    return ground;
+  void update(double dt) {
+    position.x += _velocity.x * dt;
+    position.y += _velocity.y * dt;
+    if (position.x <= -kMapSize + _radius) {
+      position.x = -kMapSize + _radius;
+    }
+    if (position.x >= kMapSize - _radius) {
+      position.x = kMapSize - _radius;
+    }
+    if (position.y <= -kMapSize + _radius) {
+      position.y = -kMapSize + _radius;
+    }
+    if (position.y >= kMapSize - _radius) {
+      position.y = kMapSize - _radius;
+    }
   }
-}
-
-class BlobPart extends BodyComponent {
-  final ConstantVolumeJointDef jointDef;
-  final int bodyNumber;
-  final Vector2 blobRadius;
-  final Vector2 blobCenter;
-
-  BlobPart(
-    this.bodyNumber,
-    this.jointDef,
-    this.blobRadius,
-    this.blobCenter,
-  );
 
   @override
-  Body createBody() {
-    const nBodies = 20.0;
-    const bodyRadius = 0.5;
-    final angle = (bodyNumber / nBodies) * math.pi * 2;
-    final x = blobCenter.x + blobRadius.x * math.sin(angle);
-    final y = blobCenter.y + blobRadius.y * math.cos(angle);
-
-    final bodyDef = BodyDef()
-      ..fixedRotation = true
-      ..position.setValues(x, y)
-      ..type = BodyType.dynamic;
-    final body = world.createBody(bodyDef);
-
-    final shape = CircleShape()..radius = bodyRadius;
-    final fixtureDef = FixtureDef(shape)
-      ..density = 1.0
-      ..filter.groupIndex = -2;
-    body.createFixture(fixtureDef);
-    jointDef.addBody(body);
-    return body;
+  void render(Canvas canvas) {
+    {
+      super.render(canvas);
+      canvas.drawCircle(Offset(_radius, _radius), _radius, _paint);
+    }
   }
-}
 
-class WarscapesGame extends Forge2DGame with TapDetector {
   @override
-  Future<void>? onLoad() async {
-    await super.onLoad();
-    final worldCenter = screenToWorld(size * camera.zoom / 2);
-    final blobCenter = worldCenter + Vector2(0, 30);
-    final blobRadius = Vector2.all(6.0);
-    addAll(createBoundaries(this));
-    add(Ground(worldCenter));
-    final jointDef = ConstantVolumeJointDef()
-      ..frequencyHz = 20.0
-      ..dampingRatio = 1.0
-      ..collideConnected = false;
+  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    final isKeyDown = event is RawKeyDownEvent;
+    final keyLeft = (event.logicalKey == LogicalKeyboardKey.arrowLeft) ||
+        (event.logicalKey == LogicalKeyboardKey.keyA);
+    final keyRight = (event.logicalKey == LogicalKeyboardKey.arrowRight) ||
+        (event.logicalKey == LogicalKeyboardKey.keyD);
+    final keyUp = (event.logicalKey == LogicalKeyboardKey.arrowUp) ||
+        (event.logicalKey == LogicalKeyboardKey.keyW);
+    final keyDown = (event.logicalKey == LogicalKeyboardKey.arrowDown) ||
+        (event.logicalKey == LogicalKeyboardKey.keyS);
 
-    await Future.wait(
-      List.generate(
-        20,
-        (i) => add(BlobPart(i, jointDef, blobRadius, blobCenter)),
-      ),
-    );
-    world.createJoint(jointDef);
+    if (isKeyDown) {
+      if (keyLeft) {
+        _velocity.x = -speed;
+      } else if (keyRight) {
+        _velocity.x = speed;
+      } else if (keyUp) {
+        _velocity.y = -speed;
+      } else if (keyDown) {
+        _velocity.y = speed;
+      }
+    } else {
+      final hasLeft = keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
+          keysPressed.contains(LogicalKeyboardKey.keyA);
+      final hasRight = keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
+          keysPressed.contains(LogicalKeyboardKey.keyD);
+      final hasUp = keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
+          keysPressed.contains(LogicalKeyboardKey.keyW);
+      final hasDown = keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
+          keysPressed.contains(LogicalKeyboardKey.keyS);
+      if (hasLeft && hasRight) {
+        // Leave the current horizontal speed unchanged
+      } else if (hasLeft) {
+        _velocity.x = -speed;
+      } else if (hasRight) {
+        _velocity.x = speed;
+      } else {
+        _velocity.x = 0;
+      }
+      if (hasUp && hasDown) {
+        // Leave the current vertical speed unchanged
+      } else if (hasUp) {
+        _velocity.y = -speed;
+      } else if (hasDown) {
+        _velocity.y = speed;
+      } else {
+        _velocity.y = 0;
+      }
+    }
+    return super.onKeyEvent(event, keysPressed);
   }
 }
