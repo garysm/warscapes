@@ -1,49 +1,49 @@
-## Simulate a hosted environment on your own machine
+A server app built using [Shelf](https://pub.dev/packages/shelf),
+configured to enable running with [Docker](https://www.docker.com/).
 
-You can run this example on your own machine using Docker to simulate
-running in a hosted environment.
+This sample code handles HTTP GET requests to `/` and `/echo/<message>`
 
-```shell
-$ docker build -t hello .
-...
+# Running the sample
 
-$ docker run -it -p 8080:8080 --name app hello
-Listening on :8080
+## Running with the Dart SDK
+
+You can run the example with the [Dart SDK](https://dart.dev/get-dart)
+like this:
+
+```
+$ dart run bin/server.dart
+Server listening on port 8080
 ```
 
-From another terminal:
-
-```shell
-curl http://localhost:8080
+And then from a second terminal:
+```
+$ curl http://0.0.0.0:8080
 Hello, World!
+$ curl http://0.0.0.0:8080/echo/I_love_Dart
+I_love_Dart
 ```
 
-If you're curious about the size of the image you created, enter:
+## Running with Docker
 
-```shell
-$ docker image ls hello
-REPOSITORY   TAG       IMAGE ID       CREATED          SIZE
-hello        latest    3f23c737877b   1 minute ago     11.6MB
+If you have [Docker Desktop](https://www.docker.com/get-started) installed, you
+can build and run with the `docker` command:
+
+```
+$ docker build . -t myserver
+$ docker run -it -p 8080:8080 myserver
+Server listening on port 8080
 ```
 
-## Clean up
-
-When finished, clean up by entering:
-
-```shell
-docker rm -f app        # remove the container
-docker image rm hello   # remove the image
+And then from a second terminal:
+```
+$ curl http://0.0.0.0:8080
+Hello, World!
+$ curl http://0.0.0.0:8080/echo/I_love_Dart
+I_love_Dart
 ```
 
-## Makefile
-
-If you're familiar with `make` and have it in your path, you can use the
-provided `Makefile` for convenience while developing and testing your
-source code locally until ready to test in a container or deploy it. The
-following targets are supported:
-
-* `make build` - this is the default target and will generate `bin/server.dart`
-* `make clean` - clears build_runner cache and removes the `bin/server.dart`
-* `make test`  - runs `clean` and `build` targets, then runs tests
-* `make run` - runs the `build` target and then starts the Dart function
-  server locally
+You should see the logging printed in the first terminal:
+```
+2021-05-06T15:47:04.620417  0:00:00.000158 GET     [200] /
+2021-05-06T15:47:08.392928  0:00:00.001216 GET     [200] /echo/I_love_Dart
+```

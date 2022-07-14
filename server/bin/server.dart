@@ -1,12 +1,16 @@
 import 'dart:io';
 
-import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:server/app.dart';
+import 'package:shelf/shelf_io.dart';
 
 Future main(List<String> args) async {
   final Stdout logger = stdout;
   logger.writeln('Starting server...');
   final app = App(logger);
-  final server = await shelf_io.serve(app.handler, 'localhost', 8080);
-  logger.writeln('Server listening on ${server.address.host}:${server.port}:');
+  // Use any available host or container IP (usually `0.0.0.0`).
+  final ip = InternetAddress.anyIPv4;
+  // For running in containers, we respect the PORT environment variable.
+  final port = int.parse(Platform.environment['PORT'] ?? '8080');
+  final server = await serve(app.handler, ip, port);
+  print('Server listening on port ${server.port}');
 }
