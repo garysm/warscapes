@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:server/app.dart';
 
-void main(List<String> args) async {
+Future main(List<String> args) async {
   final Stdout logger = stdout;
   logger.writeln('Starting server...');
   final app = App(logger);
