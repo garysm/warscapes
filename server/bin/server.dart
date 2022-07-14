@@ -1,32 +1,12 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// Copyright 2021 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+import 'dart:io';
 
-import 'package:functions_framework/serve.dart';
-import 'package:server/functions.dart' as function_library;
+import 'package:shelf/shelf_io.dart' as shelf_io;
+import 'package:server/app.dart';
 
-Future<void> main(List<String> args) async {
-  await serve(args, _nameToFunctionTarget);
-}
-
-FunctionTarget? _nameToFunctionTarget(String name) {
-  switch (name) {
-    case 'function':
-      return FunctionTarget.httpWithLogger(
-        function_library.function,
-      );
-    default:
-      return null;
-  }
+void main(List<String> args) async {
+  final Stdout logger = stdout;
+  logger.writeln('Starting server...');
+  final app = App(logger);
+  final server = await shelf_io.serve(app.handler, 'localhost', 8080);
+  logger.writeln('Server listening on ${server.address.host}:${server.port}:');
 }

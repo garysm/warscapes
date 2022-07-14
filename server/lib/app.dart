@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:io';
 
-import 'package:functions_framework/functions_framework.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
@@ -9,10 +9,13 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 part 'app.g.dart';
 
 class App {
-  final RequestLogger logger;
+  final Stdout logger;
   App(this.logger) {
-    logger.info('Initializing...');
+    logger.writeln('Initialized App');
   }
+
+  final _clients = <WebSocketChannel>[];
+
   @Route.get('/')
   Future<Response> getRoot(Request request) async {
     return Response.ok('Hello, client!');
@@ -22,13 +25,18 @@ class App {
   FutureOr<Response> getSocket(Request request) {
     final wsHandler = webSocketHandler(
       (WebSocketChannel webSocket) {
-        logger.info('Exposed WebSocket');
+        _clients.add(webSocket);
+        logger.writeln('Exposed WebSocket');
         webSocket.sink.add('Hello, from the server!');
-        logger.info('Sent initial message from socket');
+        logger.writeln('Sent initial message from socket');
         webSocket.stream.listen(
           (data) {
-            logger.info('Received message from socket: $data');
-            webSocket.sink.add('You said: $data');
+            logger.writeln('Received message from client: $data');
+
+            for (var client in _clients) {
+              client.sink.add('You said: $data');
+              logger.writeln('Sent message "$data" back to client ${client}');
+            }
           },
         );
       },
@@ -36,5 +44,5 @@ class App {
     return wsHandler(request);
   }
 
-  Router get router => _$AppRouter(this);
+  Handler get handler => _$AppRouter(this);
 }
