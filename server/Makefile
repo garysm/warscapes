@@ -14,7 +14,6 @@ test: clean build
 
 clean:
 	dart run build_runner clean
-	rm -rf bin/server.dart
 
 run: build
 	dart run bin/server.dart --port=$(PORT) --target=$(FUNCTION_TARGET)
