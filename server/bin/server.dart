@@ -10,9 +10,6 @@ late final Command command;
 Future main(List<String> args) async {
   final Stdout logger = stdout;
   logger.writeln('Starting server...');
-  connection = RedisConnection();
-  command = await connection.connect('localhost', 6379);
-  logger.writeln('Connected to Redis');
   final app = App(logger);
   // Use any available host or container IP (usually `0.0.0.0`).
   final ip = InternetAddress.anyIPv4;
