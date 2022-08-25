@@ -2,6 +2,7 @@ name: Warscapes
 
 packages:
   - server/**
+  - shared/**
   - "*"
 
 command:
@@ -11,3 +12,7 @@ command:
 scripts:
   analyze:
     exec: dart analyze .
+  server:
+    run: dart server/bin/server.dart
+  
+    
