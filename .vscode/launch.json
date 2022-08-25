@@ -5,18 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "warscapes",
+            "name": "warscapes (debug)",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "flutterMode": "debug"
         },
         {
-            "name": "warscapes (profile mode)",
+            "name": "warscapes (profile)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "warscapes (release mode)",
+            "name": "warscapes (release)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

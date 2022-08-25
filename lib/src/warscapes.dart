@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:warscapes/src/map.dart';
 import 'package:warscapes/src/soldier.dart';
@@ -18,7 +19,7 @@ const Rect kMapBounds = Rect.fromLTRB(
 
 class WarscapesGame extends FlameGame with HasKeyboardHandlerComponents {
   @override
-  bool get debugMode => true;
+  bool get debugMode => kDebugMode;
 
   late final World world;
   late final CameraComponent currentCamera;
