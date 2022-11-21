@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/app/melos_app.iml" filepath="$PROJECT_DIR$/app/melos_app.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/melos_common.iml" filepath="$PROJECT_DIR$/common/melos_common.iml" />
       <module fileurl="file://$PROJECT_DIR$/server/melos_server.iml" filepath="$PROJECT_DIR$/server/melos_server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/melos_warscapes.iml" filepath="$PROJECT_DIR$/app/melos_warscapes.iml" />
       <module fileurl="file://$PROJECT_DIR$/melos_warscapes.iml" filepath="$PROJECT_DIR$/melos_warscapes.iml" />
     </modules>
   </component>

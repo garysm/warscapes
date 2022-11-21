@@ -1,2 +1,2 @@
-export 'api/request/game_request.dart';
-export 'api/response/game_response.dart';
+export 'api/player/warscapes_player.dart';
+export 'api/message/game_message.dart';
