@@ -2,8 +2,8 @@ name: Warscapes
 
 packages:
   - server/**
-  - shared/**
-  - "*"
+  - common/**
+  - "app/**"
 
 command:
   bootstrap:

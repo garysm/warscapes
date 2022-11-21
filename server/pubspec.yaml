@@ -14,8 +14,9 @@ dependencies:
   shelf_web_socket: ^1.0.2
   uuid: ^3.0.6
   web_socket_channel: ^2.2.0
-  warscapes_api: 
-    path: ../warscapes_api
+  
+  common: 
+    path: ../common
 
 dev_dependencies:
   build_runner: ^2.0.0
