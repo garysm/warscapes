@@ -1,6 +1,4 @@
 # melos_managed_dependency_overrides: common
 dependency_overrides:
   common: 
-    git: 
-      url: https://github.com/garysm/warscapes.git
-      path: common
+    path: ../common
