@@ -20,6 +20,8 @@ GameMessage _$GameMessageFromJson(Map<String, dynamic> json) {
       return Message.fromJson(json);
     case 'PLAYER_MOVED':
       return PlayerMoved.fromJson(json);
+    case 'PLAYER_IDLE':
+      return _PlayerIdle.fromJson(json);
     case 'PLAYER_JOINED':
       return PlayerJoined.fromJson(json);
     case 'PLAYER_LEFT':
@@ -41,6 +43,7 @@ mixin _$GameMessage {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) message,
     required TResult Function(MoveData moveData) playerMoved,
+    required TResult Function(MoveData moveData) playerIdle,
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
@@ -51,6 +54,7 @@ mixin _$GameMessage {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -61,6 +65,7 @@ mixin _$GameMessage {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -72,6 +77,7 @@ mixin _$GameMessage {
   TResult map<TResult extends Object?>({
     required TResult Function(Message value) message,
     required TResult Function(PlayerMoved value) playerMoved,
+    required TResult Function(_PlayerIdle value) playerIdle,
     required TResult Function(PlayerJoined value) playerJoined,
     required TResult Function(PlayerLeft value) playerLeft,
     required TResult Function(PlayerShoot value) playerShoot,
@@ -82,6 +88,7 @@ mixin _$GameMessage {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -92,6 +99,7 @@ mixin _$GameMessage {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -190,6 +198,7 @@ class _$Message implements Message {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) message,
     required TResult Function(MoveData moveData) playerMoved,
+    required TResult Function(MoveData moveData) playerIdle,
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
@@ -203,6 +212,7 @@ class _$Message implements Message {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -216,6 +226,7 @@ class _$Message implements Message {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -233,6 +244,7 @@ class _$Message implements Message {
   TResult map<TResult extends Object?>({
     required TResult Function(Message value) message,
     required TResult Function(PlayerMoved value) playerMoved,
+    required TResult Function(_PlayerIdle value) playerIdle,
     required TResult Function(PlayerJoined value) playerJoined,
     required TResult Function(PlayerLeft value) playerLeft,
     required TResult Function(PlayerShoot value) playerShoot,
@@ -246,6 +258,7 @@ class _$Message implements Message {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -259,6 +272,7 @@ class _$Message implements Message {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -373,6 +387,7 @@ class _$PlayerMoved implements PlayerMoved {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) message,
     required TResult Function(MoveData moveData) playerMoved,
+    required TResult Function(MoveData moveData) playerIdle,
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
@@ -386,6 +401,7 @@ class _$PlayerMoved implements PlayerMoved {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -399,6 +415,7 @@ class _$PlayerMoved implements PlayerMoved {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -416,6 +433,7 @@ class _$PlayerMoved implements PlayerMoved {
   TResult map<TResult extends Object?>({
     required TResult Function(Message value) message,
     required TResult Function(PlayerMoved value) playerMoved,
+    required TResult Function(_PlayerIdle value) playerIdle,
     required TResult Function(PlayerJoined value) playerJoined,
     required TResult Function(PlayerLeft value) playerLeft,
     required TResult Function(PlayerShoot value) playerShoot,
@@ -429,6 +447,7 @@ class _$PlayerMoved implements PlayerMoved {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -442,6 +461,7 @@ class _$PlayerMoved implements PlayerMoved {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -471,6 +491,196 @@ abstract class PlayerMoved implements GameMessage {
   MoveData get moveData;
   @JsonKey(ignore: true)
   _$$PlayerMovedCopyWith<_$PlayerMoved> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_PlayerIdleCopyWith<$Res> {
+  factory _$$_PlayerIdleCopyWith(
+          _$_PlayerIdle value, $Res Function(_$_PlayerIdle) then) =
+      __$$_PlayerIdleCopyWithImpl<$Res>;
+  $Res call({MoveData moveData});
+
+  $MoveDataCopyWith<$Res> get moveData;
+}
+
+/// @nodoc
+class __$$_PlayerIdleCopyWithImpl<$Res> extends _$GameMessageCopyWithImpl<$Res>
+    implements _$$_PlayerIdleCopyWith<$Res> {
+  __$$_PlayerIdleCopyWithImpl(
+      _$_PlayerIdle _value, $Res Function(_$_PlayerIdle) _then)
+      : super(_value, (v) => _then(v as _$_PlayerIdle));
+
+  @override
+  _$_PlayerIdle get _value => super._value as _$_PlayerIdle;
+
+  @override
+  $Res call({
+    Object? moveData = freezed,
+  }) {
+    return _then(_$_PlayerIdle(
+      moveData: moveData == freezed
+          ? _value.moveData
+          : moveData // ignore: cast_nullable_to_non_nullable
+              as MoveData,
+    ));
+  }
+
+  @override
+  $MoveDataCopyWith<$Res> get moveData {
+    return $MoveDataCopyWith<$Res>(_value.moveData, (value) {
+      return _then(_value.copyWith(moveData: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_PlayerIdle implements _PlayerIdle {
+  const _$_PlayerIdle({required this.moveData, final String? $type})
+      : $type = $type ?? 'PLAYER_IDLE';
+
+  factory _$_PlayerIdle.fromJson(Map<String, dynamic> json) =>
+      _$$_PlayerIdleFromJson(json);
+
+  @override
+  final MoveData moveData;
+
+  @JsonKey(name: 'type')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'GameMessage.playerIdle(moveData: $moveData)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_PlayerIdle &&
+            const DeepCollectionEquality().equals(other.moveData, moveData));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(moveData));
+
+  @JsonKey(ignore: true)
+  @override
+  _$$_PlayerIdleCopyWith<_$_PlayerIdle> get copyWith =>
+      __$$_PlayerIdleCopyWithImpl<_$_PlayerIdle>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String message) message,
+    required TResult Function(MoveData moveData) playerMoved,
+    required TResult Function(MoveData moveData) playerIdle,
+    required TResult Function(WarscapesPlayer newPlayer) playerJoined,
+    required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
+    required TResult Function(WarscapesPlayer playerShooter) playerShoot,
+    required TResult Function(String username) createPlayer,
+  }) {
+    return playerIdle(moveData);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function(String message)? message,
+    TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
+    TResult Function(WarscapesPlayer newPlayer)? playerJoined,
+    TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
+    TResult Function(WarscapesPlayer playerShooter)? playerShoot,
+    TResult Function(String username)? createPlayer,
+  }) {
+    return playerIdle?.call(moveData);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String message)? message,
+    TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
+    TResult Function(WarscapesPlayer newPlayer)? playerJoined,
+    TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
+    TResult Function(WarscapesPlayer playerShooter)? playerShoot,
+    TResult Function(String username)? createPlayer,
+    required TResult orElse(),
+  }) {
+    if (playerIdle != null) {
+      return playerIdle(moveData);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Message value) message,
+    required TResult Function(PlayerMoved value) playerMoved,
+    required TResult Function(_PlayerIdle value) playerIdle,
+    required TResult Function(PlayerJoined value) playerJoined,
+    required TResult Function(PlayerLeft value) playerLeft,
+    required TResult Function(PlayerShoot value) playerShoot,
+    required TResult Function(CreatePlayer value) createPlayer,
+  }) {
+    return playerIdle(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Message value)? message,
+    TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
+    TResult Function(PlayerJoined value)? playerJoined,
+    TResult Function(PlayerLeft value)? playerLeft,
+    TResult Function(PlayerShoot value)? playerShoot,
+    TResult Function(CreatePlayer value)? createPlayer,
+  }) {
+    return playerIdle?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Message value)? message,
+    TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
+    TResult Function(PlayerJoined value)? playerJoined,
+    TResult Function(PlayerLeft value)? playerLeft,
+    TResult Function(PlayerShoot value)? playerShoot,
+    TResult Function(CreatePlayer value)? createPlayer,
+    required TResult orElse(),
+  }) {
+    if (playerIdle != null) {
+      return playerIdle(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PlayerIdleToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PlayerIdle implements GameMessage {
+  const factory _PlayerIdle({required final MoveData moveData}) = _$_PlayerIdle;
+
+  factory _PlayerIdle.fromJson(Map<String, dynamic> json) =
+      _$_PlayerIdle.fromJson;
+
+  MoveData get moveData;
+  @JsonKey(ignore: true)
+  _$$_PlayerIdleCopyWith<_$_PlayerIdle> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -557,6 +767,7 @@ class _$PlayerJoined implements PlayerJoined {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) message,
     required TResult Function(MoveData moveData) playerMoved,
+    required TResult Function(MoveData moveData) playerIdle,
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
@@ -570,6 +781,7 @@ class _$PlayerJoined implements PlayerJoined {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -583,6 +795,7 @@ class _$PlayerJoined implements PlayerJoined {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -600,6 +813,7 @@ class _$PlayerJoined implements PlayerJoined {
   TResult map<TResult extends Object?>({
     required TResult Function(Message value) message,
     required TResult Function(PlayerMoved value) playerMoved,
+    required TResult Function(_PlayerIdle value) playerIdle,
     required TResult Function(PlayerJoined value) playerJoined,
     required TResult Function(PlayerLeft value) playerLeft,
     required TResult Function(PlayerShoot value) playerShoot,
@@ -613,6 +827,7 @@ class _$PlayerJoined implements PlayerJoined {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -626,6 +841,7 @@ class _$PlayerJoined implements PlayerJoined {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -743,6 +959,7 @@ class _$PlayerLeft implements PlayerLeft {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) message,
     required TResult Function(MoveData moveData) playerMoved,
+    required TResult Function(MoveData moveData) playerIdle,
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
@@ -756,6 +973,7 @@ class _$PlayerLeft implements PlayerLeft {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -769,6 +987,7 @@ class _$PlayerLeft implements PlayerLeft {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -786,6 +1005,7 @@ class _$PlayerLeft implements PlayerLeft {
   TResult map<TResult extends Object?>({
     required TResult Function(Message value) message,
     required TResult Function(PlayerMoved value) playerMoved,
+    required TResult Function(_PlayerIdle value) playerIdle,
     required TResult Function(PlayerJoined value) playerJoined,
     required TResult Function(PlayerLeft value) playerLeft,
     required TResult Function(PlayerShoot value) playerShoot,
@@ -799,6 +1019,7 @@ class _$PlayerLeft implements PlayerLeft {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -812,6 +1033,7 @@ class _$PlayerLeft implements PlayerLeft {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -929,6 +1151,7 @@ class _$PlayerShoot implements PlayerShoot {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) message,
     required TResult Function(MoveData moveData) playerMoved,
+    required TResult Function(MoveData moveData) playerIdle,
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
@@ -942,6 +1165,7 @@ class _$PlayerShoot implements PlayerShoot {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -955,6 +1179,7 @@ class _$PlayerShoot implements PlayerShoot {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -972,6 +1197,7 @@ class _$PlayerShoot implements PlayerShoot {
   TResult map<TResult extends Object?>({
     required TResult Function(Message value) message,
     required TResult Function(PlayerMoved value) playerMoved,
+    required TResult Function(_PlayerIdle value) playerIdle,
     required TResult Function(PlayerJoined value) playerJoined,
     required TResult Function(PlayerLeft value) playerLeft,
     required TResult Function(PlayerShoot value) playerShoot,
@@ -985,6 +1211,7 @@ class _$PlayerShoot implements PlayerShoot {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -998,6 +1225,7 @@ class _$PlayerShoot implements PlayerShoot {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -1105,6 +1333,7 @@ class _$CreatePlayer implements CreatePlayer {
   TResult when<TResult extends Object?>({
     required TResult Function(String message) message,
     required TResult Function(MoveData moveData) playerMoved,
+    required TResult Function(MoveData moveData) playerIdle,
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
@@ -1118,6 +1347,7 @@ class _$CreatePlayer implements CreatePlayer {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -1131,6 +1361,7 @@ class _$CreatePlayer implements CreatePlayer {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String message)? message,
     TResult Function(MoveData moveData)? playerMoved,
+    TResult Function(MoveData moveData)? playerIdle,
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
@@ -1148,6 +1379,7 @@ class _$CreatePlayer implements CreatePlayer {
   TResult map<TResult extends Object?>({
     required TResult Function(Message value) message,
     required TResult Function(PlayerMoved value) playerMoved,
+    required TResult Function(_PlayerIdle value) playerIdle,
     required TResult Function(PlayerJoined value) playerJoined,
     required TResult Function(PlayerLeft value) playerLeft,
     required TResult Function(PlayerShoot value) playerShoot,
@@ -1161,6 +1393,7 @@ class _$CreatePlayer implements CreatePlayer {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,
@@ -1174,6 +1407,7 @@ class _$CreatePlayer implements CreatePlayer {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Message value)? message,
     TResult Function(PlayerMoved value)? playerMoved,
+    TResult Function(_PlayerIdle value)? playerIdle,
     TResult Function(PlayerJoined value)? playerJoined,
     TResult Function(PlayerLeft value)? playerLeft,
     TResult Function(PlayerShoot value)? playerShoot,

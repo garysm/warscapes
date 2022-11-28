@@ -28,6 +28,18 @@ Map<String, dynamic> _$$PlayerMovedToJson(_$PlayerMoved instance) =>
       'type': instance.$type,
     };
 
+_$_PlayerIdle _$$_PlayerIdleFromJson(Map<String, dynamic> json) =>
+    _$_PlayerIdle(
+      moveData: MoveData.fromJson(json['moveData'] as Map<String, dynamic>),
+      $type: json['type'] as String?,
+    );
+
+Map<String, dynamic> _$$_PlayerIdleToJson(_$_PlayerIdle instance) =>
+    <String, dynamic>{
+      'moveData': instance.moveData.toJson(),
+      'type': instance.$type,
+    };
+
 _$PlayerJoined _$$PlayerJoinedFromJson(Map<String, dynamic> json) =>
     _$PlayerJoined(
       newPlayer:

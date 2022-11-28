@@ -10,6 +10,8 @@ class GameMessage with _$GameMessage {
   const factory GameMessage.playerMoved({
     required MoveData moveData,
   }) = PlayerMoved;
+  const factory GameMessage.playerIdle({required MoveData moveData}) =
+      _PlayerIdle;
   const factory GameMessage.playerJoined({
     required WarscapesPlayer newPlayer,
   }) = PlayerJoined;
