@@ -47,7 +47,9 @@ mixin _$GameMessage {
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
-    required TResult Function(String username) createPlayer,
+    required TResult Function(
+            String username, double? initialX, double? initialY)
+        createPlayer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58,7 +60,8 @@ mixin _$GameMessage {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -69,7 +72,8 @@ mixin _$GameMessage {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -202,7 +206,9 @@ class _$Message implements Message {
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
-    required TResult Function(String username) createPlayer,
+    required TResult Function(
+            String username, double? initialX, double? initialY)
+        createPlayer,
   }) {
     return message(this.message);
   }
@@ -216,7 +222,8 @@ class _$Message implements Message {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
   }) {
     return message?.call(this.message);
   }
@@ -230,7 +237,8 @@ class _$Message implements Message {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
     required TResult orElse(),
   }) {
     if (message != null) {
@@ -391,7 +399,9 @@ class _$PlayerMoved implements PlayerMoved {
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
-    required TResult Function(String username) createPlayer,
+    required TResult Function(
+            String username, double? initialX, double? initialY)
+        createPlayer,
   }) {
     return playerMoved(moveData);
   }
@@ -405,7 +415,8 @@ class _$PlayerMoved implements PlayerMoved {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
   }) {
     return playerMoved?.call(moveData);
   }
@@ -419,7 +430,8 @@ class _$PlayerMoved implements PlayerMoved {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
     required TResult orElse(),
   }) {
     if (playerMoved != null) {
@@ -581,7 +593,9 @@ class _$_PlayerIdle implements _PlayerIdle {
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
-    required TResult Function(String username) createPlayer,
+    required TResult Function(
+            String username, double? initialX, double? initialY)
+        createPlayer,
   }) {
     return playerIdle(moveData);
   }
@@ -595,7 +609,8 @@ class _$_PlayerIdle implements _PlayerIdle {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
   }) {
     return playerIdle?.call(moveData);
   }
@@ -609,7 +624,8 @@ class _$_PlayerIdle implements _PlayerIdle {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
     required TResult orElse(),
   }) {
     if (playerIdle != null) {
@@ -771,7 +787,9 @@ class _$PlayerJoined implements PlayerJoined {
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
-    required TResult Function(String username) createPlayer,
+    required TResult Function(
+            String username, double? initialX, double? initialY)
+        createPlayer,
   }) {
     return playerJoined(newPlayer);
   }
@@ -785,7 +803,8 @@ class _$PlayerJoined implements PlayerJoined {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
   }) {
     return playerJoined?.call(newPlayer);
   }
@@ -799,7 +818,8 @@ class _$PlayerJoined implements PlayerJoined {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
     required TResult orElse(),
   }) {
     if (playerJoined != null) {
@@ -963,7 +983,9 @@ class _$PlayerLeft implements PlayerLeft {
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
-    required TResult Function(String username) createPlayer,
+    required TResult Function(
+            String username, double? initialX, double? initialY)
+        createPlayer,
   }) {
     return playerLeft(disconnectedPlayer);
   }
@@ -977,7 +999,8 @@ class _$PlayerLeft implements PlayerLeft {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
   }) {
     return playerLeft?.call(disconnectedPlayer);
   }
@@ -991,7 +1014,8 @@ class _$PlayerLeft implements PlayerLeft {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
     required TResult orElse(),
   }) {
     if (playerLeft != null) {
@@ -1155,7 +1179,9 @@ class _$PlayerShoot implements PlayerShoot {
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
-    required TResult Function(String username) createPlayer,
+    required TResult Function(
+            String username, double? initialX, double? initialY)
+        createPlayer,
   }) {
     return playerShoot(playerShooter);
   }
@@ -1169,7 +1195,8 @@ class _$PlayerShoot implements PlayerShoot {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
   }) {
     return playerShoot?.call(playerShooter);
   }
@@ -1183,7 +1210,8 @@ class _$PlayerShoot implements PlayerShoot {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
     required TResult orElse(),
   }) {
     if (playerShoot != null) {
@@ -1264,7 +1292,7 @@ abstract class _$$CreatePlayerCopyWith<$Res> {
   factory _$$CreatePlayerCopyWith(
           _$CreatePlayer value, $Res Function(_$CreatePlayer) then) =
       __$$CreatePlayerCopyWithImpl<$Res>;
-  $Res call({String username});
+  $Res call({String username, double? initialX, double? initialY});
 }
 
 /// @nodoc
@@ -1280,12 +1308,22 @@ class __$$CreatePlayerCopyWithImpl<$Res> extends _$GameMessageCopyWithImpl<$Res>
   @override
   $Res call({
     Object? username = freezed,
+    Object? initialX = freezed,
+    Object? initialY = freezed,
   }) {
     return _then(_$CreatePlayer(
       username: username == freezed
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      initialX: initialX == freezed
+          ? _value.initialX
+          : initialX // ignore: cast_nullable_to_non_nullable
+              as double?,
+      initialY: initialY == freezed
+          ? _value.initialY
+          : initialY // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -1293,7 +1331,11 @@ class __$$CreatePlayerCopyWithImpl<$Res> extends _$GameMessageCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$CreatePlayer implements CreatePlayer {
-  const _$CreatePlayer({required this.username, final String? $type})
+  const _$CreatePlayer(
+      {required this.username,
+      this.initialX,
+      this.initialY,
+      final String? $type})
       : $type = $type ?? 'CREATE_PLAYER';
 
   factory _$CreatePlayer.fromJson(Map<String, dynamic> json) =>
@@ -1301,13 +1343,17 @@ class _$CreatePlayer implements CreatePlayer {
 
   @override
   final String username;
+  @override
+  final double? initialX;
+  @override
+  final double? initialY;
 
   @JsonKey(name: 'type')
   final String $type;
 
   @override
   String toString() {
-    return 'GameMessage.createPlayer(username: $username)';
+    return 'GameMessage.createPlayer(username: $username, initialX: $initialX, initialY: $initialY)';
   }
 
   @override
@@ -1315,13 +1361,18 @@ class _$CreatePlayer implements CreatePlayer {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreatePlayer &&
-            const DeepCollectionEquality().equals(other.username, username));
+            const DeepCollectionEquality().equals(other.username, username) &&
+            const DeepCollectionEquality().equals(other.initialX, initialX) &&
+            const DeepCollectionEquality().equals(other.initialY, initialY));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(username));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(username),
+      const DeepCollectionEquality().hash(initialX),
+      const DeepCollectionEquality().hash(initialY));
 
   @JsonKey(ignore: true)
   @override
@@ -1337,9 +1388,11 @@ class _$CreatePlayer implements CreatePlayer {
     required TResult Function(WarscapesPlayer newPlayer) playerJoined,
     required TResult Function(WarscapesPlayer disconnectedPlayer) playerLeft,
     required TResult Function(WarscapesPlayer playerShooter) playerShoot,
-    required TResult Function(String username) createPlayer,
+    required TResult Function(
+            String username, double? initialX, double? initialY)
+        createPlayer,
   }) {
-    return createPlayer(username);
+    return createPlayer(username, initialX, initialY);
   }
 
   @override
@@ -1351,9 +1404,10 @@ class _$CreatePlayer implements CreatePlayer {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
   }) {
-    return createPlayer?.call(username);
+    return createPlayer?.call(username, initialX, initialY);
   }
 
   @override
@@ -1365,11 +1419,12 @@ class _$CreatePlayer implements CreatePlayer {
     TResult Function(WarscapesPlayer newPlayer)? playerJoined,
     TResult Function(WarscapesPlayer disconnectedPlayer)? playerLeft,
     TResult Function(WarscapesPlayer playerShooter)? playerShoot,
-    TResult Function(String username)? createPlayer,
+    TResult Function(String username, double? initialX, double? initialY)?
+        createPlayer,
     required TResult orElse(),
   }) {
     if (createPlayer != null) {
-      return createPlayer(username);
+      return createPlayer(username, initialX, initialY);
     }
     return orElse();
   }
@@ -1429,12 +1484,17 @@ class _$CreatePlayer implements CreatePlayer {
 }
 
 abstract class CreatePlayer implements GameMessage {
-  const factory CreatePlayer({required final String username}) = _$CreatePlayer;
+  const factory CreatePlayer(
+      {required final String username,
+      final double? initialX,
+      final double? initialY}) = _$CreatePlayer;
 
   factory CreatePlayer.fromJson(Map<String, dynamic> json) =
       _$CreatePlayer.fromJson;
 
   String get username;
+  double? get initialX;
+  double? get initialY;
   @JsonKey(ignore: true)
   _$$CreatePlayerCopyWith<_$CreatePlayer> get copyWith =>
       throw _privateConstructorUsedError;

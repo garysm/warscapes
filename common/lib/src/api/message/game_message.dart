@@ -23,6 +23,8 @@ class GameMessage with _$GameMessage {
   }) = PlayerShoot;
   const factory GameMessage.createPlayer({
     required String username,
+    double? initialX,
+    double? initialY,
   }) = CreatePlayer;
 
   factory GameMessage.fromJson(Map<String, dynamic> json) =>

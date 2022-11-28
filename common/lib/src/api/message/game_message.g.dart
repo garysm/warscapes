@@ -81,12 +81,16 @@ Map<String, dynamic> _$$PlayerShootToJson(_$PlayerShoot instance) =>
 _$CreatePlayer _$$CreatePlayerFromJson(Map<String, dynamic> json) =>
     _$CreatePlayer(
       username: json['username'] as String,
+      initialX: (json['initialX'] as num?)?.toDouble(),
+      initialY: (json['initialY'] as num?)?.toDouble(),
       $type: json['type'] as String?,
     );
 
 Map<String, dynamic> _$$CreatePlayerToJson(_$CreatePlayer instance) =>
     <String, dynamic>{
       'username': instance.username,
+      'initialX': instance.initialX,
+      'initialY': instance.initialY,
       'type': instance.$type,
     };
 
