@@ -1214,8 +1214,8 @@ MoveData _$MoveDataFromJson(Map<String, dynamic> json) {
 mixin _$MoveData {
   int get playerId => throw _privateConstructorUsedError;
   double get direction => throw _privateConstructorUsedError;
-  @VectorConverter()
-  Vector2 get newPosition => throw _privateConstructorUsedError;
+  double get x => throw _privateConstructorUsedError;
+  double get y => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1227,8 +1227,7 @@ mixin _$MoveData {
 abstract class $MoveDataCopyWith<$Res> {
   factory $MoveDataCopyWith(MoveData value, $Res Function(MoveData) then) =
       _$MoveDataCopyWithImpl<$Res>;
-  $Res call(
-      {int playerId, double direction, @VectorConverter() Vector2 newPosition});
+  $Res call({int playerId, double direction, double x, double y});
 }
 
 /// @nodoc
@@ -1243,7 +1242,8 @@ class _$MoveDataCopyWithImpl<$Res> implements $MoveDataCopyWith<$Res> {
   $Res call({
     Object? playerId = freezed,
     Object? direction = freezed,
-    Object? newPosition = freezed,
+    Object? x = freezed,
+    Object? y = freezed,
   }) {
     return _then(_value.copyWith(
       playerId: playerId == freezed
@@ -1254,10 +1254,14 @@ class _$MoveDataCopyWithImpl<$Res> implements $MoveDataCopyWith<$Res> {
           ? _value.direction
           : direction // ignore: cast_nullable_to_non_nullable
               as double,
-      newPosition: newPosition == freezed
-          ? _value.newPosition
-          : newPosition // ignore: cast_nullable_to_non_nullable
-              as Vector2,
+      x: x == freezed
+          ? _value.x
+          : x // ignore: cast_nullable_to_non_nullable
+              as double,
+      y: y == freezed
+          ? _value.y
+          : y // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -1268,8 +1272,7 @@ abstract class _$$_MoveDataCopyWith<$Res> implements $MoveDataCopyWith<$Res> {
           _$_MoveData value, $Res Function(_$_MoveData) then) =
       __$$_MoveDataCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {int playerId, double direction, @VectorConverter() Vector2 newPosition});
+  $Res call({int playerId, double direction, double x, double y});
 }
 
 /// @nodoc
@@ -1286,7 +1289,8 @@ class __$$_MoveDataCopyWithImpl<$Res> extends _$MoveDataCopyWithImpl<$Res>
   $Res call({
     Object? playerId = freezed,
     Object? direction = freezed,
-    Object? newPosition = freezed,
+    Object? x = freezed,
+    Object? y = freezed,
   }) {
     return _then(_$_MoveData(
       playerId: playerId == freezed
@@ -1297,10 +1301,14 @@ class __$$_MoveDataCopyWithImpl<$Res> extends _$MoveDataCopyWithImpl<$Res>
           ? _value.direction
           : direction // ignore: cast_nullable_to_non_nullable
               as double,
-      newPosition: newPosition == freezed
-          ? _value.newPosition
-          : newPosition // ignore: cast_nullable_to_non_nullable
-              as Vector2,
+      x: x == freezed
+          ? _value.x
+          : x // ignore: cast_nullable_to_non_nullable
+              as double,
+      y: y == freezed
+          ? _value.y
+          : y // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -1311,7 +1319,8 @@ class _$_MoveData implements _MoveData {
   const _$_MoveData(
       {required this.playerId,
       required this.direction,
-      @VectorConverter() required this.newPosition});
+      required this.x,
+      required this.y});
 
   factory _$_MoveData.fromJson(Map<String, dynamic> json) =>
       _$$_MoveDataFromJson(json);
@@ -1321,12 +1330,13 @@ class _$_MoveData implements _MoveData {
   @override
   final double direction;
   @override
-  @VectorConverter()
-  final Vector2 newPosition;
+  final double x;
+  @override
+  final double y;
 
   @override
   String toString() {
-    return 'MoveData(playerId: $playerId, direction: $direction, newPosition: $newPosition)';
+    return 'MoveData(playerId: $playerId, direction: $direction, x: $x, y: $y)';
   }
 
   @override
@@ -1336,8 +1346,8 @@ class _$_MoveData implements _MoveData {
             other is _$_MoveData &&
             const DeepCollectionEquality().equals(other.playerId, playerId) &&
             const DeepCollectionEquality().equals(other.direction, direction) &&
-            const DeepCollectionEquality()
-                .equals(other.newPosition, newPosition));
+            const DeepCollectionEquality().equals(other.x, x) &&
+            const DeepCollectionEquality().equals(other.y, y));
   }
 
   @JsonKey(ignore: true)
@@ -1346,7 +1356,8 @@ class _$_MoveData implements _MoveData {
       runtimeType,
       const DeepCollectionEquality().hash(playerId),
       const DeepCollectionEquality().hash(direction),
-      const DeepCollectionEquality().hash(newPosition));
+      const DeepCollectionEquality().hash(x),
+      const DeepCollectionEquality().hash(y));
 
   @JsonKey(ignore: true)
   @override
@@ -1365,7 +1376,8 @@ abstract class _MoveData implements MoveData {
   const factory _MoveData(
       {required final int playerId,
       required final double direction,
-      @VectorConverter() required final Vector2 newPosition}) = _$_MoveData;
+      required final double x,
+      required final double y}) = _$_MoveData;
 
   factory _MoveData.fromJson(Map<String, dynamic> json) = _$_MoveData.fromJson;
 
@@ -1374,8 +1386,9 @@ abstract class _MoveData implements MoveData {
   @override
   double get direction;
   @override
-  @VectorConverter()
-  Vector2 get newPosition;
+  double get x;
+  @override
+  double get y;
   @override
   @JsonKey(ignore: true)
   _$$_MoveDataCopyWith<_$_MoveData> get copyWith =>

@@ -10,30 +10,31 @@ _$_WarscapesPlayer _$$_WarscapesPlayerFromJson(Map<String, dynamic> json) =>
     _$_WarscapesPlayer(
       id: json['id'] as int,
       name: json['name'] as String,
-      movementData: json['movementData'] == null
+      positionData: json['positionData'] == null
           ? null
-          : PlayerMovementData.fromJson(
-              json['movementData'] as Map<String, dynamic>),
+          : PlayerPositionData.fromJson(
+              json['positionData'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_WarscapesPlayerToJson(_$_WarscapesPlayer instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'movementData': instance.movementData?.toJson(),
+      'positionData': instance.positionData?.toJson(),
     };
 
-_$_PlayerMovementData _$$_PlayerMovementDataFromJson(
+_$_PlayerPositionData _$$_PlayerPositionDataFromJson(
         Map<String, dynamic> json) =>
-    _$_PlayerMovementData(
+    _$_PlayerPositionData(
       direction: (json['direction'] as num).toDouble(),
-      position:
-          const VectorConverter().fromJson(json['position'] as List<double>),
+      x: (json['x'] as num).toDouble(),
+      y: (json['y'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$_PlayerMovementDataToJson(
-        _$_PlayerMovementData instance) =>
+Map<String, dynamic> _$$_PlayerPositionDataToJson(
+        _$_PlayerPositionData instance) =>
     <String, dynamic>{
       'direction': instance.direction,
-      'position': const VectorConverter().toJson(instance.position),
+      'x': instance.x,
+      'y': instance.y,
     };

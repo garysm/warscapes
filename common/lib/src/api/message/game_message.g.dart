@@ -81,13 +81,14 @@ Map<String, dynamic> _$$CreatePlayerToJson(_$CreatePlayer instance) =>
 _$_MoveData _$$_MoveDataFromJson(Map<String, dynamic> json) => _$_MoveData(
       playerId: json['playerId'] as int,
       direction: (json['direction'] as num).toDouble(),
-      newPosition:
-          const VectorConverter().fromJson(json['newPosition'] as List<double>),
+      x: (json['x'] as num).toDouble(),
+      y: (json['y'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$_MoveDataToJson(_$_MoveData instance) =>
     <String, dynamic>{
       'playerId': instance.playerId,
       'direction': instance.direction,
-      'newPosition': const VectorConverter().toJson(instance.newPosition),
+      'x': instance.x,
+      'y': instance.y,
     };

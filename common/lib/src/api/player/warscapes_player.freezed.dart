@@ -22,7 +22,7 @@ WarscapesPlayer _$WarscapesPlayerFromJson(Map<String, dynamic> json) {
 mixin _$WarscapesPlayer {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  PlayerMovementData? get movementData => throw _privateConstructorUsedError;
+  PlayerPositionData? get positionData => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,9 +35,9 @@ abstract class $WarscapesPlayerCopyWith<$Res> {
   factory $WarscapesPlayerCopyWith(
           WarscapesPlayer value, $Res Function(WarscapesPlayer) then) =
       _$WarscapesPlayerCopyWithImpl<$Res>;
-  $Res call({int id, String name, PlayerMovementData? movementData});
+  $Res call({int id, String name, PlayerPositionData? positionData});
 
-  $PlayerMovementDataCopyWith<$Res>? get movementData;
+  $PlayerPositionDataCopyWith<$Res>? get positionData;
 }
 
 /// @nodoc
@@ -53,7 +53,7 @@ class _$WarscapesPlayerCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
-    Object? movementData = freezed,
+    Object? positionData = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -64,21 +64,21 @@ class _$WarscapesPlayerCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      movementData: movementData == freezed
-          ? _value.movementData
-          : movementData // ignore: cast_nullable_to_non_nullable
-              as PlayerMovementData?,
+      positionData: positionData == freezed
+          ? _value.positionData
+          : positionData // ignore: cast_nullable_to_non_nullable
+              as PlayerPositionData?,
     ));
   }
 
   @override
-  $PlayerMovementDataCopyWith<$Res>? get movementData {
-    if (_value.movementData == null) {
+  $PlayerPositionDataCopyWith<$Res>? get positionData {
+    if (_value.positionData == null) {
       return null;
     }
 
-    return $PlayerMovementDataCopyWith<$Res>(_value.movementData!, (value) {
-      return _then(_value.copyWith(movementData: value));
+    return $PlayerPositionDataCopyWith<$Res>(_value.positionData!, (value) {
+      return _then(_value.copyWith(positionData: value));
     });
   }
 }
@@ -90,10 +90,10 @@ abstract class _$$_WarscapesPlayerCopyWith<$Res>
           _$_WarscapesPlayer value, $Res Function(_$_WarscapesPlayer) then) =
       __$$_WarscapesPlayerCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String name, PlayerMovementData? movementData});
+  $Res call({int id, String name, PlayerPositionData? positionData});
 
   @override
-  $PlayerMovementDataCopyWith<$Res>? get movementData;
+  $PlayerPositionDataCopyWith<$Res>? get positionData;
 }
 
 /// @nodoc
@@ -111,7 +111,7 @@ class __$$_WarscapesPlayerCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? name = freezed,
-    Object? movementData = freezed,
+    Object? positionData = freezed,
   }) {
     return _then(_$_WarscapesPlayer(
       id: id == freezed
@@ -122,10 +122,10 @@ class __$$_WarscapesPlayerCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      movementData: movementData == freezed
-          ? _value.movementData
-          : movementData // ignore: cast_nullable_to_non_nullable
-              as PlayerMovementData?,
+      positionData: positionData == freezed
+          ? _value.positionData
+          : positionData // ignore: cast_nullable_to_non_nullable
+              as PlayerPositionData?,
     ));
   }
 }
@@ -134,7 +134,7 @@ class __$$_WarscapesPlayerCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_WarscapesPlayer implements _WarscapesPlayer {
   const _$_WarscapesPlayer(
-      {required this.id, required this.name, this.movementData});
+      {required this.id, required this.name, this.positionData});
 
   factory _$_WarscapesPlayer.fromJson(Map<String, dynamic> json) =>
       _$$_WarscapesPlayerFromJson(json);
@@ -144,11 +144,11 @@ class _$_WarscapesPlayer implements _WarscapesPlayer {
   @override
   final String name;
   @override
-  final PlayerMovementData? movementData;
+  final PlayerPositionData? positionData;
 
   @override
   String toString() {
-    return 'WarscapesPlayer(id: $id, name: $name, movementData: $movementData)';
+    return 'WarscapesPlayer(id: $id, name: $name, positionData: $positionData)';
   }
 
   @override
@@ -159,7 +159,7 @@ class _$_WarscapesPlayer implements _WarscapesPlayer {
             const DeepCollectionEquality().equals(other.id, id) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
-                .equals(other.movementData, movementData));
+                .equals(other.positionData, positionData));
   }
 
   @JsonKey(ignore: true)
@@ -168,7 +168,7 @@ class _$_WarscapesPlayer implements _WarscapesPlayer {
       runtimeType,
       const DeepCollectionEquality().hash(id),
       const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(movementData));
+      const DeepCollectionEquality().hash(positionData));
 
   @JsonKey(ignore: true)
   @override
@@ -187,7 +187,7 @@ abstract class _WarscapesPlayer implements WarscapesPlayer {
   const factory _WarscapesPlayer(
       {required final int id,
       required final String name,
-      final PlayerMovementData? movementData}) = _$_WarscapesPlayer;
+      final PlayerPositionData? positionData}) = _$_WarscapesPlayer;
 
   factory _WarscapesPlayer.fromJson(Map<String, dynamic> json) =
       _$_WarscapesPlayer.fromJson;
@@ -197,130 +197,142 @@ abstract class _WarscapesPlayer implements WarscapesPlayer {
   @override
   String get name;
   @override
-  PlayerMovementData? get movementData;
+  PlayerPositionData? get positionData;
   @override
   @JsonKey(ignore: true)
   _$$_WarscapesPlayerCopyWith<_$_WarscapesPlayer> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-PlayerMovementData _$PlayerMovementDataFromJson(Map<String, dynamic> json) {
-  return _PlayerMovementData.fromJson(json);
+PlayerPositionData _$PlayerPositionDataFromJson(Map<String, dynamic> json) {
+  return _PlayerPositionData.fromJson(json);
 }
 
 /// @nodoc
-mixin _$PlayerMovementData {
+mixin _$PlayerPositionData {
   double get direction => throw _privateConstructorUsedError;
-  @VectorConverter()
-  Vector2 get position => throw _privateConstructorUsedError;
+  double get x => throw _privateConstructorUsedError;
+  double get y => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PlayerMovementDataCopyWith<PlayerMovementData> get copyWith =>
+  $PlayerPositionDataCopyWith<PlayerPositionData> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $PlayerMovementDataCopyWith<$Res> {
-  factory $PlayerMovementDataCopyWith(
-          PlayerMovementData value, $Res Function(PlayerMovementData) then) =
-      _$PlayerMovementDataCopyWithImpl<$Res>;
-  $Res call({double direction, @VectorConverter() Vector2 position});
+abstract class $PlayerPositionDataCopyWith<$Res> {
+  factory $PlayerPositionDataCopyWith(
+          PlayerPositionData value, $Res Function(PlayerPositionData) then) =
+      _$PlayerPositionDataCopyWithImpl<$Res>;
+  $Res call({double direction, double x, double y});
 }
 
 /// @nodoc
-class _$PlayerMovementDataCopyWithImpl<$Res>
-    implements $PlayerMovementDataCopyWith<$Res> {
-  _$PlayerMovementDataCopyWithImpl(this._value, this._then);
+class _$PlayerPositionDataCopyWithImpl<$Res>
+    implements $PlayerPositionDataCopyWith<$Res> {
+  _$PlayerPositionDataCopyWithImpl(this._value, this._then);
 
-  final PlayerMovementData _value;
+  final PlayerPositionData _value;
   // ignore: unused_field
-  final $Res Function(PlayerMovementData) _then;
+  final $Res Function(PlayerPositionData) _then;
 
   @override
   $Res call({
     Object? direction = freezed,
-    Object? position = freezed,
+    Object? x = freezed,
+    Object? y = freezed,
   }) {
     return _then(_value.copyWith(
       direction: direction == freezed
           ? _value.direction
           : direction // ignore: cast_nullable_to_non_nullable
               as double,
-      position: position == freezed
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as Vector2,
+      x: x == freezed
+          ? _value.x
+          : x // ignore: cast_nullable_to_non_nullable
+              as double,
+      y: y == freezed
+          ? _value.y
+          : y // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
 
 /// @nodoc
-abstract class _$$_PlayerMovementDataCopyWith<$Res>
-    implements $PlayerMovementDataCopyWith<$Res> {
-  factory _$$_PlayerMovementDataCopyWith(_$_PlayerMovementData value,
-          $Res Function(_$_PlayerMovementData) then) =
-      __$$_PlayerMovementDataCopyWithImpl<$Res>;
+abstract class _$$_PlayerPositionDataCopyWith<$Res>
+    implements $PlayerPositionDataCopyWith<$Res> {
+  factory _$$_PlayerPositionDataCopyWith(_$_PlayerPositionData value,
+          $Res Function(_$_PlayerPositionData) then) =
+      __$$_PlayerPositionDataCopyWithImpl<$Res>;
   @override
-  $Res call({double direction, @VectorConverter() Vector2 position});
+  $Res call({double direction, double x, double y});
 }
 
 /// @nodoc
-class __$$_PlayerMovementDataCopyWithImpl<$Res>
-    extends _$PlayerMovementDataCopyWithImpl<$Res>
-    implements _$$_PlayerMovementDataCopyWith<$Res> {
-  __$$_PlayerMovementDataCopyWithImpl(
-      _$_PlayerMovementData _value, $Res Function(_$_PlayerMovementData) _then)
-      : super(_value, (v) => _then(v as _$_PlayerMovementData));
+class __$$_PlayerPositionDataCopyWithImpl<$Res>
+    extends _$PlayerPositionDataCopyWithImpl<$Res>
+    implements _$$_PlayerPositionDataCopyWith<$Res> {
+  __$$_PlayerPositionDataCopyWithImpl(
+      _$_PlayerPositionData _value, $Res Function(_$_PlayerPositionData) _then)
+      : super(_value, (v) => _then(v as _$_PlayerPositionData));
 
   @override
-  _$_PlayerMovementData get _value => super._value as _$_PlayerMovementData;
+  _$_PlayerPositionData get _value => super._value as _$_PlayerPositionData;
 
   @override
   $Res call({
     Object? direction = freezed,
-    Object? position = freezed,
+    Object? x = freezed,
+    Object? y = freezed,
   }) {
-    return _then(_$_PlayerMovementData(
+    return _then(_$_PlayerPositionData(
       direction: direction == freezed
           ? _value.direction
           : direction // ignore: cast_nullable_to_non_nullable
               as double,
-      position: position == freezed
-          ? _value.position
-          : position // ignore: cast_nullable_to_non_nullable
-              as Vector2,
+      x: x == freezed
+          ? _value.x
+          : x // ignore: cast_nullable_to_non_nullable
+              as double,
+      y: y == freezed
+          ? _value.y
+          : y // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_PlayerMovementData implements _PlayerMovementData {
-  const _$_PlayerMovementData(
-      {required this.direction, @VectorConverter() required this.position});
+class _$_PlayerPositionData implements _PlayerPositionData {
+  const _$_PlayerPositionData(
+      {required this.direction, required this.x, required this.y});
 
-  factory _$_PlayerMovementData.fromJson(Map<String, dynamic> json) =>
-      _$$_PlayerMovementDataFromJson(json);
+  factory _$_PlayerPositionData.fromJson(Map<String, dynamic> json) =>
+      _$$_PlayerPositionDataFromJson(json);
 
   @override
   final double direction;
   @override
-  @VectorConverter()
-  final Vector2 position;
+  final double x;
+  @override
+  final double y;
 
   @override
   String toString() {
-    return 'PlayerMovementData(direction: $direction, position: $position)';
+    return 'PlayerPositionData(direction: $direction, x: $x, y: $y)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PlayerMovementData &&
+            other is _$_PlayerPositionData &&
             const DeepCollectionEquality().equals(other.direction, direction) &&
-            const DeepCollectionEquality().equals(other.position, position));
+            const DeepCollectionEquality().equals(other.x, x) &&
+            const DeepCollectionEquality().equals(other.y, y));
   }
 
   @JsonKey(ignore: true)
@@ -328,38 +340,40 @@ class _$_PlayerMovementData implements _PlayerMovementData {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(direction),
-      const DeepCollectionEquality().hash(position));
+      const DeepCollectionEquality().hash(x),
+      const DeepCollectionEquality().hash(y));
 
   @JsonKey(ignore: true)
   @override
-  _$$_PlayerMovementDataCopyWith<_$_PlayerMovementData> get copyWith =>
-      __$$_PlayerMovementDataCopyWithImpl<_$_PlayerMovementData>(
+  _$$_PlayerPositionDataCopyWith<_$_PlayerPositionData> get copyWith =>
+      __$$_PlayerPositionDataCopyWithImpl<_$_PlayerPositionData>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PlayerMovementDataToJson(
+    return _$$_PlayerPositionDataToJson(
       this,
     );
   }
 }
 
-abstract class _PlayerMovementData implements PlayerMovementData {
-  const factory _PlayerMovementData(
-          {required final double direction,
-          @VectorConverter() required final Vector2 position}) =
-      _$_PlayerMovementData;
+abstract class _PlayerPositionData implements PlayerPositionData {
+  const factory _PlayerPositionData(
+      {required final double direction,
+      required final double x,
+      required final double y}) = _$_PlayerPositionData;
 
-  factory _PlayerMovementData.fromJson(Map<String, dynamic> json) =
-      _$_PlayerMovementData.fromJson;
+  factory _PlayerPositionData.fromJson(Map<String, dynamic> json) =
+      _$_PlayerPositionData.fromJson;
 
   @override
   double get direction;
   @override
-  @VectorConverter()
-  Vector2 get position;
+  double get x;
+  @override
+  double get y;
   @override
   @JsonKey(ignore: true)
-  _$$_PlayerMovementDataCopyWith<_$_PlayerMovementData> get copyWith =>
+  _$$_PlayerPositionDataCopyWith<_$_PlayerPositionData> get copyWith =>
       throw _privateConstructorUsedError;
 }

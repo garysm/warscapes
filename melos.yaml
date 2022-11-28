@@ -15,7 +15,7 @@ scripts:
   server:
     select-package:
       scope: server
-    exec: docker compose up 
+    exec: docker compose up
     # run: dart server/bin/server.dart
 
   build:

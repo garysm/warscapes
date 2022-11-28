@@ -1,11 +1,7 @@
 import 'dart:io';
 
-import 'package:redis/redis.dart';
 import 'package:server/app.dart';
 import 'package:shelf/shelf_io.dart';
-
-late final RedisConnection connection;
-late final Command command;
 
 Future main(List<String> args) async {
   final Stdout logger = stdout;

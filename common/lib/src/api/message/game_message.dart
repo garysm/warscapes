@@ -1,6 +1,5 @@
 import 'package:common/src/api/player/warscapes_player.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:vector_math/vector_math_64.dart';
 
 part 'game_message.freezed.dart';
 part 'game_message.g.dart';
@@ -33,7 +32,8 @@ class MoveData with _$MoveData {
   const factory MoveData({
     required int playerId,
     required double direction,
-    @VectorConverter() required Vector2 newPosition,
+    required double x,
+    required double y,
   }) = _MoveData;
 
   factory MoveData.fromJson(Map<String, dynamic> json) =>

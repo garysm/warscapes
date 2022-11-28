@@ -8,7 +8,15 @@ part of 'app.dart';
 
 Router _$AppRouter(App service) {
   final router = Router();
-  router.add('GET', r'/', service.getRoot);
-  router.add('GET', r'/ws', service.getSocket);
+  router.add(
+    'GET',
+    r'/',
+    service.getRoot,
+  );
+  router.add(
+    'GET',
+    r'/ws',
+    service.getSocket,
+  );
   return router;
 }

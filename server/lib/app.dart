@@ -5,8 +5,6 @@ import 'dart:io';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
-import 'package:uuid/uuid.dart';
-import 'package:vector_math/vector_math_64.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:common/warscapes_api.dart';
 
@@ -14,9 +12,7 @@ part 'app.g.dart';
 
 class App {
   final Stdout logger;
-  late final Uuid uuid;
   App(this.logger) {
-    uuid = Uuid();
     logger.writeln('Initialized App');
   }
 
@@ -28,10 +24,12 @@ class App {
   }
 
   @Route.get('/ws')
-  FutureOr<Response> getSocket(Request request) {
+  FutureOr<Response> getSocket(Request request) async {
     final wsHandler = webSocketHandler(
       (WebSocketChannel webSocket) {
         _players.add(webSocket);
+        sendMessageToPlayers(GameMessage.createPlayer(
+            username: '${_players.indexOf(webSocket)}'));
         webSocket.stream.listen(
           (data) {
             logger.writeln('Received message: $data');
@@ -39,7 +37,7 @@ class App {
               try {
                 final json = jsonDecode(data);
                 final gameMessage = GameMessage.fromJson(json);
-                gameMessage.maybeWhen(
+                gameMessage.whenOrNull(
                   message: (String message) {},
                   createPlayer: (String username) {
                     final playerJoinMessage = GameMessage.playerJoined(
@@ -49,9 +47,6 @@ class App {
                   },
                   playerMoved: (MoveData moveData) {},
                   playerShoot: (WarscapesPlayer playerShooter) {},
-                  orElse: () {
-                    return;
-                  },
                 );
               } on FormatException catch (e) {
                 logger.writeln('String received is not a valid message');
@@ -62,7 +57,6 @@ class App {
             logger
                 .writeln('Client #${_players.indexOf(webSocket)} disconnected');
             _players.remove(webSocket);
-            // sendMessageToPlayers(GameMessage.playerLeft(disconnectedPlayer: WarscapesPlayer(id: id, name: name)));
           },
         );
       },
@@ -76,9 +70,10 @@ class App {
     return WarscapesPlayer(
       id: _players.length,
       name: username,
-      movementData: PlayerMovementData(
+      positionData: PlayerPositionData(
         direction: 0.0,
-        position: Vector2(0, 0),
+        x: 0.0,
+        y: 0.0,
       ),
     );
   }

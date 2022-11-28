@@ -4,6 +4,6 @@
 library common;
 
 export 'src/common.dart'
-    show GameMessage, WarscapesPlayer, MoveData, PlayerMovementData;
+    show GameMessage, WarscapesPlayer, MoveData, PlayerPositionData;
 
 // TODO: Export any libraries intended for clients of this package.
