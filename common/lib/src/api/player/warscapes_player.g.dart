@@ -8,8 +8,7 @@ part of 'warscapes_player.dart';
 
 _$_WarscapesPlayer _$$_WarscapesPlayerFromJson(Map<String, dynamic> json) =>
     _$_WarscapesPlayer(
-      id: json['id'] as int,
-      name: json['name'] as String,
+      id: json['id'] as String,
       positionData: json['positionData'] == null
           ? null
           : PlayerPositionData.fromJson(
@@ -19,7 +18,6 @@ _$_WarscapesPlayer _$$_WarscapesPlayerFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_WarscapesPlayerToJson(_$_WarscapesPlayer instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'name': instance.name,
       'positionData': instance.positionData?.toJson(),
     };
 

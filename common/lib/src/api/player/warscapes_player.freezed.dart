@@ -20,8 +20,7 @@ WarscapesPlayer _$WarscapesPlayerFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WarscapesPlayer {
-  int get id => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   PlayerPositionData? get positionData => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +34,7 @@ abstract class $WarscapesPlayerCopyWith<$Res> {
   factory $WarscapesPlayerCopyWith(
           WarscapesPlayer value, $Res Function(WarscapesPlayer) then) =
       _$WarscapesPlayerCopyWithImpl<$Res>;
-  $Res call({int id, String name, PlayerPositionData? positionData});
+  $Res call({String id, PlayerPositionData? positionData});
 
   $PlayerPositionDataCopyWith<$Res>? get positionData;
 }
@@ -52,17 +51,12 @@ class _$WarscapesPlayerCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? name = freezed,
     Object? positionData = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: name == freezed
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
               as String,
       positionData: positionData == freezed
           ? _value.positionData
@@ -90,7 +84,7 @@ abstract class _$$_WarscapesPlayerCopyWith<$Res>
           _$_WarscapesPlayer value, $Res Function(_$_WarscapesPlayer) then) =
       __$$_WarscapesPlayerCopyWithImpl<$Res>;
   @override
-  $Res call({int id, String name, PlayerPositionData? positionData});
+  $Res call({String id, PlayerPositionData? positionData});
 
   @override
   $PlayerPositionDataCopyWith<$Res>? get positionData;
@@ -110,17 +104,12 @@ class __$$_WarscapesPlayerCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? name = freezed,
     Object? positionData = freezed,
   }) {
     return _then(_$_WarscapesPlayer(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      name: name == freezed
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
               as String,
       positionData: positionData == freezed
           ? _value.positionData
@@ -133,22 +122,19 @@ class __$$_WarscapesPlayerCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_WarscapesPlayer implements _WarscapesPlayer {
-  const _$_WarscapesPlayer(
-      {required this.id, required this.name, this.positionData});
+  const _$_WarscapesPlayer({required this.id, this.positionData});
 
   factory _$_WarscapesPlayer.fromJson(Map<String, dynamic> json) =>
       _$$_WarscapesPlayerFromJson(json);
 
   @override
-  final int id;
-  @override
-  final String name;
+  final String id;
   @override
   final PlayerPositionData? positionData;
 
   @override
   String toString() {
-    return 'WarscapesPlayer(id: $id, name: $name, positionData: $positionData)';
+    return 'WarscapesPlayer(id: $id, positionData: $positionData)';
   }
 
   @override
@@ -157,7 +143,6 @@ class _$_WarscapesPlayer implements _WarscapesPlayer {
         (other.runtimeType == runtimeType &&
             other is _$_WarscapesPlayer &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.positionData, positionData));
   }
@@ -167,7 +152,6 @@ class _$_WarscapesPlayer implements _WarscapesPlayer {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(positionData));
 
   @JsonKey(ignore: true)
@@ -185,17 +169,14 @@ class _$_WarscapesPlayer implements _WarscapesPlayer {
 
 abstract class _WarscapesPlayer implements WarscapesPlayer {
   const factory _WarscapesPlayer(
-      {required final int id,
-      required final String name,
+      {required final String id,
       final PlayerPositionData? positionData}) = _$_WarscapesPlayer;
 
   factory _WarscapesPlayer.fromJson(Map<String, dynamic> json) =
       _$_WarscapesPlayer.fromJson;
 
   @override
-  int get id;
-  @override
-  String get name;
+  String get id;
   @override
   PlayerPositionData? get positionData;
   @override

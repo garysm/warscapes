@@ -6,8 +6,7 @@ part 'warscapes_player.g.dart';
 @freezed
 class WarscapesPlayer with _$WarscapesPlayer {
   const factory WarscapesPlayer({
-    required int id,
-    required String name,
+    required String id,
     PlayerPositionData? positionData,
   }) = _WarscapesPlayer;
 
