@@ -1506,7 +1506,7 @@ MoveData _$MoveDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MoveData {
-  int get playerId => throw _privateConstructorUsedError;
+  String get playerId => throw _privateConstructorUsedError;
   double get direction => throw _privateConstructorUsedError;
   double get x => throw _privateConstructorUsedError;
   double get y => throw _privateConstructorUsedError;
@@ -1521,7 +1521,7 @@ mixin _$MoveData {
 abstract class $MoveDataCopyWith<$Res> {
   factory $MoveDataCopyWith(MoveData value, $Res Function(MoveData) then) =
       _$MoveDataCopyWithImpl<$Res>;
-  $Res call({int playerId, double direction, double x, double y});
+  $Res call({String playerId, double direction, double x, double y});
 }
 
 /// @nodoc
@@ -1543,7 +1543,7 @@ class _$MoveDataCopyWithImpl<$Res> implements $MoveDataCopyWith<$Res> {
       playerId: playerId == freezed
           ? _value.playerId
           : playerId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       direction: direction == freezed
           ? _value.direction
           : direction // ignore: cast_nullable_to_non_nullable
@@ -1566,7 +1566,7 @@ abstract class _$$_MoveDataCopyWith<$Res> implements $MoveDataCopyWith<$Res> {
           _$_MoveData value, $Res Function(_$_MoveData) then) =
       __$$_MoveDataCopyWithImpl<$Res>;
   @override
-  $Res call({int playerId, double direction, double x, double y});
+  $Res call({String playerId, double direction, double x, double y});
 }
 
 /// @nodoc
@@ -1590,7 +1590,7 @@ class __$$_MoveDataCopyWithImpl<$Res> extends _$MoveDataCopyWithImpl<$Res>
       playerId: playerId == freezed
           ? _value.playerId
           : playerId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       direction: direction == freezed
           ? _value.direction
           : direction // ignore: cast_nullable_to_non_nullable
@@ -1620,7 +1620,7 @@ class _$_MoveData implements _MoveData {
       _$$_MoveDataFromJson(json);
 
   @override
-  final int playerId;
+  final String playerId;
   @override
   final double direction;
   @override
@@ -1668,7 +1668,7 @@ class _$_MoveData implements _MoveData {
 
 abstract class _MoveData implements MoveData {
   const factory _MoveData(
-      {required final int playerId,
+      {required final String playerId,
       required final double direction,
       required final double x,
       required final double y}) = _$_MoveData;
@@ -1676,7 +1676,7 @@ abstract class _MoveData implements MoveData {
   factory _MoveData.fromJson(Map<String, dynamic> json) = _$_MoveData.fromJson;
 
   @override
-  int get playerId;
+  String get playerId;
   @override
   double get direction;
   @override

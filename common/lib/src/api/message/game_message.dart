@@ -34,7 +34,7 @@ class GameMessage with _$GameMessage {
 @freezed
 class MoveData with _$MoveData {
   const factory MoveData({
-    required int playerId,
+    required String playerId,
     required double direction,
     required double x,
     required double y,

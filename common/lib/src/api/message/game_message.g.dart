@@ -94,7 +94,7 @@ Map<String, dynamic> _$$CreatePlayerToJson(_$CreatePlayer instance) =>
     };
 
 _$_MoveData _$$_MoveDataFromJson(Map<String, dynamic> json) => _$_MoveData(
-      playerId: json['playerId'] as int,
+      playerId: json['playerId'] as String,
       direction: (json['direction'] as num).toDouble(),
       x: (json['x'] as num).toDouble(),
       y: (json['y'] as num).toDouble(),
