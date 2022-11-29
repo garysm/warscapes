@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:common/warscapes_api.dart';
 import 'package:flame/components.dart';
 import 'package:flame/experimental.dart';
@@ -10,11 +9,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:warscapes/src/game/components/map.dart';
 import 'package:warscapes/src/game/components/player_soldier.dart';
-import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/status.dart' as status;
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 const double kMapSize = 500;
-const Rect kMapBounds = Rect.fromLTRB(
+const kMapBounds = Rect.fromLTRB(
   -kMapSize,
   -kMapSize,
   kMapSize,
@@ -25,21 +24,22 @@ class WarscapesGame extends FlameGame with HasKeyboardHandlerComponents {
   @override
   bool get debugMode => kDebugMode;
 
-  late final IOWebSocketChannel _socket;
+  late final WebSocketChannel _socket;
   late Stream<dynamic> _socketStream;
-  StreamSubscription<GameMessage?>? _gameEventStream;
+  Stream<GameMessage?>? gameEventStream;
+  StreamSubscription<GameMessage?>? _gameEventStreamSubscription;
 
   late final World world;
   late final CameraComponent currentCamera;
-  late final int id = 1;
   late PlayerSoldier player;
 
   WarscapesGame() {
-    _gameEventStream?.cancel();
-    _gameEventStream = null;
-    _socket = IOWebSocketChannel.connect('ws://localhost:8080/ws');
+    player = PlayerSoldier();
+    _gameEventStreamSubscription?.cancel();
+    _gameEventStreamSubscription = null;
+    _socket = WebSocketChannel.connect(Uri.parse('ws://localhost:8080/ws'));
     _socketStream = _socket.stream;
-    _gameEventStream = _socketStream.map(
+    gameEventStream = _socketStream.map(
       (data) {
         if (data is String) {
           try {
@@ -51,19 +51,22 @@ class WarscapesGame extends FlameGame with HasKeyboardHandlerComponents {
           }
         }
       },
-    ).listen(_handleGameEvents);
+    ).asBroadcastStream();
+    _gameEventStreamSubscription = gameEventStream?.listen(_handleGameEvents);
   }
 
-  _handleGameEvents(GameMessage? message) {
+  void _handleGameEvents(GameMessage? message) {
     message?.whenOrNull(
       message: (String message) {},
-      createPlayer: (String username) {
-        final soldier = PlayerSoldier(id, radius: 20.0)
-          ..position = Vector2(0, 0);
-        world.add(soldier);
-        currentCamera = CameraComponent(world: world)..follow(soldier);
-        add(currentCamera);
+      createPlayer: (String username, double? x, double? y) {
+        if (username == player.id) {
+          final soldier = player..position = Vector2(x!, y!);
+          world.add(soldier);
+          currentCamera = CameraComponent(world: world)..follow(soldier);
+          add(currentCamera);
+        } else {}
       },
+      playerIdle: (MoveData moveData) {},
       playerMoved: (MoveData moveData) {},
       playerShoot: (WarscapesPlayer playerShooter) {},
     );
@@ -73,7 +76,7 @@ class WarscapesGame extends FlameGame with HasKeyboardHandlerComponents {
     sendEventToServer(
       GameMessage.playerMoved(
         moveData: MoveData(
-          playerId: id,
+          playerId: player.id,
           direction: movementData.direction,
           x: movementData.x,
           y: movementData.y,
@@ -91,7 +94,7 @@ class WarscapesGame extends FlameGame with HasKeyboardHandlerComponents {
   @override
   Future<void> onRemove() async {
     await _socket.sink.close(status.goingAway);
-    await _gameEventStream?.cancel();
+    await _gameEventStreamSubscription?.cancel();
   }
 
   @override
@@ -101,16 +104,6 @@ class WarscapesGame extends FlameGame with HasKeyboardHandlerComponents {
     final map = WarscapesMap();
     world.add(map);
     add(FpsTextComponent());
-
-    // for (var i = 0; i < numberOfPlayers; i++) {
-    //   final soldier = PlayerSoldier(
-    //     i,
-    //     radius: 20.0,
-    //   )..position = Vector2(0, 0);
-    //   soldiers.add(soldier);
-    //   world.add(soldier);
-    // }
-    // currentCamera = CameraComponent(world: world)..follow(soldiers[0]);
-    // add(currentCamera);
+    sendEventToServer(GameMessage.createPlayer(username: player.id));
   }
 }
