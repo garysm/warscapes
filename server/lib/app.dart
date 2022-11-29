@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:redis/redis.dart';
+import 'package:riverpod/riverpod.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_web_socket/shelf_web_socket.dart';
@@ -11,13 +13,21 @@ import 'package:common/warscapes_api.dart';
 
 part 'app.g.dart';
 
+// TODO verify that new command is created every time this provider is called
+final commandProvider = FutureProvider.family<Command, RedisConnection>(
+  (ref, connection) async {
+    return await connection.connect('redis', 6379);
+  },
+);
+
 class App {
   final Stdout logger;
-  App(this.logger) {
+  final ProviderContainer container;
+  App(this.logger, this.container) {
     logger.writeln('Initialized App');
   }
 
-  final _players = <WebSocketChannel>[];
+  final _players = <WebSocketChannel, String?>{};
 
   @Route.get('/')
   Future<Response> getRoot(Request request) async {
@@ -26,9 +36,13 @@ class App {
 
   @Route.get('/ws')
   FutureOr<Response> getSocket(Request request) async {
+    final redisConnection = RedisConnection();
+    final Command command = await container.read(
+      commandProvider(redisConnection).future,
+    );
     final wsHandler = webSocketHandler(
       (WebSocketChannel webSocket) {
-        _players.add(webSocket);
+        _players[webSocket] = null;
         webSocket.stream.listen(
           (data) {
             logger.writeln('Received message: $data');
@@ -41,12 +55,17 @@ class App {
                   createPlayer:
                       (String username, double? initialX, double? initialY) {
                     final player = createPlayer(username);
+                    _players[webSocket] = player.id;
                     final playerJoinMessage = GameMessage.createPlayer(
                       username: player.id,
                       initialX: player.positionData!.x,
                       initialY: player.positionData!.y,
                     );
                     sendMessageToPlayers(playerJoinMessage);
+                    // sendAllPlayersToNewPlayer(webSocket);
+                  },
+                  playerLeft: (WarscapesPlayer disconnectedPlayer) {
+                    _players.remove(webSocket);
                   },
                   playerIdle: (MoveData moveData) {},
                   playerMoved: (MoveData moveData) {
@@ -62,8 +81,7 @@ class App {
             }
           },
           onDone: () {
-            logger
-                .writeln('Client #${_players.indexOf(webSocket)} disconnected');
+            logger.writeln('Client #${_players[webSocket]} disconnected');
             _players.remove(webSocket);
           },
         );
@@ -89,13 +107,21 @@ class App {
     );
   }
 
+// void sendAllPlayersToNewPlayer(WebSocketChannel socket){
+//   for (final WebSocketChannel client in _players.keys) {
+//     final player = _players[client];
+//     final message = GameMessage.createPlayer(username: )
+//     final json = message.toJson();
+//     final messageString = jsonEncode(json);
+//   }
+// }
   void sendMessageToPlayers(GameMessage message) {
     final json = message.toJson();
     final messageString = jsonEncode(json);
-    for (WebSocketChannel client in _players) {
+    for (WebSocketChannel client in _players.keys) {
       client.sink.add(messageString);
       logger.writeln(
-          'Message: $messageString. Sent to client #${_players.indexOf(client)}');
+          'Message: $messageString. Sent to client #${_players[client]}');
     }
   }
 }
