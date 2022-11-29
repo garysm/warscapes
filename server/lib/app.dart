@@ -20,6 +20,21 @@ final commandProvider = FutureProvider.family<Command, RedisConnection>(
   },
 );
 
+// final createPlayerCommandProvider =
+//     FutureProvider.family<void, WarscapesPlayer>(
+//   (ref, player) async {
+//     final connection = RedisConnection();
+//     final getCommand = await ref.watch(
+//       commandProvider(connection).future,
+//     );
+//     await getCommand.multi().then((transaction) {
+//       transaction.send_object(['HMSET ${player.id}', 'username', player.id]);
+//       transaction
+//           .send_object(['HMSET ${player.id}', 'x', player.positionData!.x]);
+//     });
+//   },
+// );
+
 class App {
   final Stdout logger;
   final ProviderContainer container;
@@ -36,10 +51,6 @@ class App {
 
   @Route.get('/ws')
   FutureOr<Response> getSocket(Request request) async {
-    final redisConnection = RedisConnection();
-    final Command command = await container.read(
-      commandProvider(redisConnection).future,
-    );
     final wsHandler = webSocketHandler(
       (WebSocketChannel webSocket) {
         _players[webSocket] = null;
