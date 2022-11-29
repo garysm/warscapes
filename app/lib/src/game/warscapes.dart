@@ -7,6 +7,7 @@ import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:warscapes/src/game/components/enemy_soldier.dart';
 import 'package:warscapes/src/game/components/map.dart';
 import 'package:warscapes/src/game/components/player_soldier.dart';
 import 'package:web_socket_channel/status.dart' as status;
@@ -64,7 +65,11 @@ class WarscapesGame extends FlameGame with HasKeyboardHandlerComponents {
           world.add(soldier);
           currentCamera = CameraComponent(world: world)..follow(soldier);
           add(currentCamera);
-        } else {}
+        } else {
+          final enemySoldier = EnemySoldier(id: username)
+            ..position = Vector2(x!, y!);
+          world.add(enemySoldier);
+        }
       },
       playerIdle: (MoveData moveData) {},
       playerMoved: (MoveData moveData) {},
