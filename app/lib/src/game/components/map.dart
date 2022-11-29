@@ -18,6 +18,13 @@ class WarscapesMap extends Component {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    canvas.drawRect(kMapBounds, _background);
+    canvas.drawRect(
+        Rect.fromLTRB(
+          kMapBounds.left,
+          kMapBounds.top,
+          kMapBounds.right,
+          kMapBounds.bottom,
+        ),
+        _background);
   }
 }

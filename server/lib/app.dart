@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
@@ -28,8 +29,6 @@ class App {
     final wsHandler = webSocketHandler(
       (WebSocketChannel webSocket) {
         _players.add(webSocket);
-        sendMessageToPlayers(GameMessage.createPlayer(
-            username: '${_players.indexOf(webSocket)}'));
         webSocket.stream.listen(
           (data) {
             logger.writeln('Received message: $data');
@@ -39,13 +38,22 @@ class App {
                 final gameMessage = GameMessage.fromJson(json);
                 gameMessage.whenOrNull(
                   message: (String message) {},
-                  createPlayer: (String username) {
-                    final playerJoinMessage = GameMessage.playerJoined(
-                      newPlayer: createPlayer(username),
+                  createPlayer:
+                      (String username, double? initialX, double? initialY) {
+                    final player = createPlayer(username);
+                    final playerJoinMessage = GameMessage.createPlayer(
+                      username: player.id,
+                      initialX: player.positionData!.x,
+                      initialY: player.positionData!.y,
                     );
                     sendMessageToPlayers(playerJoinMessage);
                   },
-                  playerMoved: (MoveData moveData) {},
+                  playerIdle: (MoveData moveData) {},
+                  playerMoved: (MoveData moveData) {
+                    sendMessageToPlayers(
+                      GameMessage.playerMoved(moveData: moveData),
+                    );
+                  },
                   playerShoot: (WarscapesPlayer playerShooter) {},
                 );
               } on FormatException catch (e) {
@@ -67,13 +75,16 @@ class App {
   Handler get handler => _$AppRouter(this);
 
   WarscapesPlayer createPlayer(String username) {
+    const double radius = 20.0;
+    final int offset = radius.toInt();
+    final x = Random().nextInt(kMapSize.toInt() - offset);
+    final y = Random().nextInt(kMapSize.toInt() - offset);
     return WarscapesPlayer(
-      id: _players.length,
-      name: username,
+      id: username,
       positionData: PlayerPositionData(
         direction: 0.0,
-        x: 0.0,
-        y: 0.0,
+        x: x.toDouble(),
+        y: y.toDouble(),
       ),
     );
   }
@@ -88,3 +99,6 @@ class App {
     }
   }
 }
+
+const double kMapSize = 500;
+const double speed = 300;

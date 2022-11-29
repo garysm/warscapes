@@ -1,71 +1,78 @@
+import 'dart:async';
+
 import 'package:common/warscapes_api.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:uuid/uuid.dart';
+import 'package:warscapes/src/game/components/soldier.dart';
 import 'package:warscapes/src/game/warscapes.dart';
 
-class PlayerSoldier extends PositionComponent
+class PlayerSoldier extends Soldier
     with KeyboardHandler, HasGameRef<WarscapesGame> {
-  final int id;
-  static const double speed = 300;
   final Vector2 _velocity;
+  static const double speed = 100;
   late Timer _timer;
-  PlayerSoldier(
-    this.id, {
-    required double radius,
-    Paint? paint,
-    Vector2? position,
-  })  : _velocity = Vector2.zero(),
-        _radius = radius,
-        _paint = paint ?? Paint()
-          ..color = Colors.yellow,
-        super(
-          priority: 1,
-          position: position,
-          size: Vector2.all(2 * radius),
-          anchor: Anchor.center,
-        ) {
+  StreamSubscription<GameMessage?>? _gameEventStreamSubscription;
+
+  PlayerSoldier() : _velocity = Vector2.zero() {
+    id = const Uuid().v4();
+  }
+
+  void _handleGameEvents(GameMessage? message) {
+    message?.whenOrNull(
+      message: (String message) {},
+      playerIdle: (MoveData moveData) {},
+      playerMoved: (MoveData moveData) {
+        if (moveData.playerId == id) {
+          final newX = moveData.x;
+          final newY = moveData.y;
+          position.x = newX;
+          position.y = newY;
+        }
+      },
+      playerShoot: (WarscapesPlayer playerShooter) {},
+    );
+  }
+
+  @override
+  Future<void>? onLoad() {
+    _gameEventStreamSubscription?.cancel();
+    _gameEventStreamSubscription = null;
+    _gameEventStreamSubscription =
+        gameRef.gameEventStream?.listen(_handleGameEvents);
     _timer = Timer(
       1,
       repeat: true,
       onTick: () {
-        _updatePosition();
+        _updatePosition(position.x, position.y);
       },
     );
+    _timer.start();
+    return super.onLoad();
   }
-
-  final double _radius;
-  final Paint _paint;
 
   @override
   void update(double dt) {
     _timer.update(dt);
-    position.x += _velocity.x * dt;
-    position.y += _velocity.y * dt;
-    if (position.x <= -kMapSize + _radius) {
-      position.x = -kMapSize + _radius;
+    double x = (position.x + (_velocity.x * dt));
+    double y = (position.y + (_velocity.y * dt));
+    if (x <= -kMapSize + radius) {
+      x = -kMapSize + radius;
     }
-    if (position.x >= kMapSize - _radius) {
-      position.x = kMapSize - _radius;
+    if (x >= kMapSize - radius) {
+      x = kMapSize - radius;
     }
-    if (position.y <= -kMapSize + _radius) {
-      position.y = -kMapSize + _radius;
+    if (y <= -kMapSize + radius) {
+      y = -kMapSize + radius;
     }
-    if (position.y >= kMapSize - _radius) {
-      position.y = kMapSize - _radius;
+    if (y >= kMapSize - radius) {
+      y = kMapSize - radius;
     }
-  }
-
-  @override
-  void render(Canvas canvas) {
-    {
-      super.render(canvas);
-      canvas.drawCircle(
-        Offset(_radius, _radius),
-        _radius,
-        _paint,
-      );
+    // Send updates to server upon position change
+    if (position.x != x || position.y != y) {
+      _updatePosition(x, y);
     }
+    super.update(dt);
   }
 
   @override
@@ -121,13 +128,19 @@ class PlayerSoldier extends PositionComponent
     return super.onKeyEvent(event, keysPressed);
   }
 
-  void _updatePosition() {
+  void _updatePosition(double x, double y) {
     gameRef.movePlayer(
       PlayerPositionData(
         direction: angle,
-        x: position.x,
-        y: position.y,
+        x: x,
+        y: y,
       ),
     );
+  }
+
+  @override
+  Future<void> onRemove() async {
+    await _gameEventStreamSubscription?.cancel();
+    super.onRemove();
   }
 }
