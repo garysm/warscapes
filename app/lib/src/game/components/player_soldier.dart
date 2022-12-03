@@ -22,14 +22,7 @@ class PlayerSoldier extends Soldier
     message?.whenOrNull(
       message: (String message) {},
       playerIdle: (MoveData moveData) {},
-      playerMoved: (MoveData moveData) {
-        if (moveData.playerId == id) {
-          final newX = moveData.x;
-          final newY = moveData.y;
-          position.x = newX;
-          position.y = newY;
-        }
-      },
+      playerMoved: (MoveData moveData) {},
       playerShoot: (WarscapesPlayer playerShooter) {},
     );
   }
@@ -40,11 +33,12 @@ class PlayerSoldier extends Soldier
     _gameEventStreamSubscription = null;
     _gameEventStreamSubscription =
         gameRef.gameEventStream?.listen(_handleGameEvents);
+    // Ticker to update position every second
     _timer = Timer(
       1,
       repeat: true,
       onTick: () {
-        _updatePosition(position.x, position.y);
+        _sendUpdatedPosition(position.x, position.y);
       },
     );
     _timer.start();
@@ -54,24 +48,23 @@ class PlayerSoldier extends Soldier
   @override
   void update(double dt) {
     _timer.update(dt);
-    double x = (position.x + (_velocity.x * dt));
-    double y = (position.y + (_velocity.y * dt));
-    if (x <= -kMapSize + radius) {
-      x = -kMapSize + radius;
+    // TODO: Reconsider client vs server position changes
+    position.x += _velocity.x * dt;
+    position.y += _velocity.y * dt;
+    if (position.x <= -kMapSize + radius) {
+      position.x = -kMapSize + radius;
     }
-    if (x >= kMapSize - radius) {
-      x = kMapSize - radius;
+    if (position.x >= kMapSize - radius) {
+      position.x = kMapSize - radius;
     }
-    if (y <= -kMapSize + radius) {
-      y = -kMapSize + radius;
+    if (position.y <= -kMapSize + radius) {
+      position.y = -kMapSize + radius;
     }
-    if (y >= kMapSize - radius) {
-      y = kMapSize - radius;
+    if (position.y >= kMapSize - radius) {
+      position.y = kMapSize - radius;
     }
-    // Send updates to server upon position change
-    if (position.x != x || position.y != y) {
-      _updatePosition(x, y);
-    }
+    // TODO: Reconsider how often to send position
+    _sendUpdatedPosition(x, y);
     super.update(dt);
   }
 
@@ -128,12 +121,14 @@ class PlayerSoldier extends Soldier
     return super.onKeyEvent(event, keysPressed);
   }
 
-  void _updatePosition(double x, double y) {
+  void _sendUpdatedPosition(double x, double y) {
+    // Round to the nearest integer to keep the position
+    // on x/y coordinates to the nearest integer.
     gameRef.movePlayer(
       PlayerPositionData(
         direction: angle,
-        x: x,
-        y: y,
+        x: x.roundToDouble(),
+        y: y.roundToDouble(),
       ),
     );
   }
